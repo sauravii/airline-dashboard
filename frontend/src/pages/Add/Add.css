@@ -1,0 +1,230 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+
+.add-flight  {
+    display: flex;
+    height: 100%;
+    width:100%;
+}
+.leftside{
+    position: fixed;
+    width: 20%;
+    height: 100%;
+    background-color: #333333;
+    left: 0;
+    top: 0;
+}
+.upper{
+    width: 95%;
+    display: grid;
+    background: transparent;
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    z-index: 999;
+}
+.upper .btn{
+    display: flex;
+    all: unset;
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    width: 100%;
+    
+    font-family: "Montserrat", sans-serif;
+    font-size: 200%;
+    color: #fafafa;
+    padding: 10px 0px;
+    cursor: pointer;
+}
+.upper .btn span{
+    margin-left: 10px;
+}
+.upper .btn img{
+    background: transparent;
+    width: 10%;
+    margin-right: 0.5px;
+    margin-left: 5%;
+    text-align: center;
+}
+
+.btn{
+    transition: background-color 0.3s ease;
+}
+
+.upper .btn:hover{
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    background-color: #5f5f5f;
+}
+
+.under{
+    width: 95%;
+    display: grid;
+    background: transparent;
+    position: absolute;
+    bottom: 9%;
+    left: 5%;
+    z-index: 999;
+    row-gap: 20px;
+}
+
+.under .btnadd{
+    display: flex;
+    text-align: center;
+    all: unset;
+    background: #1f47bf;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    width: 100%;
+    
+    font-family: "Montserrat";
+    font-style: bold;
+    font-size: 120%;
+    color: #fafafa;
+    padding: 10px 0px;
+    cursor: pointer;
+}
+.under .btnadd img{
+    background: transparent;
+    width: 10%;
+    margin-right: 0.5px;
+    margin-left: 5%;
+    
+}
+.under .btnrem{
+    display: flex;
+    text-align: center;
+    all: unset;
+    background: #bf1f1f;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    width: 100%;
+    
+    font-family: "Montserrat", sans-serif;
+    font-style: semi-bold;
+    font-size: 120%;
+    color: #fafafa;
+    padding: 10px 0px;
+    cursor: pointer;
+}
+.under .btnrem img{
+    background: transparent;
+    width: 12%;
+    margin-right: 0.5px;
+    margin-left: 5%;
+}
+.right_side{
+    position: fixed;
+    width: 80%;
+    height: 100%;
+    background-color: #fafafa;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box{
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border-radius: 0%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.card{
+  
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;   
+    justify-content: flex-start;
+
+    width: 50%;
+    height: 30%;
+    margin: 8% 5%;
+    
+    border-radius: 15px;
+    background-color: #c9c9c9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.isi{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;          /* pengganti space-between */
+    width: 90%;
+    margin: 5% 5%;
+    background: transparent;
+}
+.card .under{
+    
+    display:grid;
+    justify-content: space-between;
+    height: 10%;
+    width: 10%;
+    background: transparent;
+}
+
+.card h2,
+.card p,
+.card span{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 90%;
+    background: transparent;
+    margin: 0 5px;
+}
+
+.card .time .Arrive, .depart{
+    
+    background: transparent;
+}
+.card .time .Arrive, .depart h2{
+    font-style: bold;
+}
+.card .header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    background: transparent;
+    margin: 0 ;
+}
+
+.card .header .head{
+    background: transparent;
+
+}
+
+.card .header .head h2{
+    font-style: bold;
+    font-size: 150%;
+}
+
+.card .header .head span{
+    font-size: 85%;
+    background: transparent;
+}
+.card .time,
+.card .time .duration,
+.card .time .depart,
+.card .time .Arrive{
+    background: transparent;
+}
+
+.card .days{
+    position: absolute;
+    margin: 15% 0 ;
+    background: transparent;
+    font-size: 80%;
+    color: #555555;
+}
+

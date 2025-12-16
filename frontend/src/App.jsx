@@ -1,10 +1,12 @@
  import { useContext } from 'react'
  import { Outlet, Route, Routes } from 'react-router-dom'
- 
+ import Head  from './pages/Header/header.jsx' 
+ import Add from './pages/Add/Add.jsx'
  import './App.css'
+ import Remove from './pages/remove/remove.jsx'
 
  import { AuthContext } from './context/AuthContext'
- import HomePage from './pages/HomePage'
+ import Dashboard from './pages/Dashboard/DashboardScreen.jsx'
 
  
  function Layout() {
@@ -12,6 +14,7 @@
  
    return (
      <>
+        <Head />
        <Outlet />
      </>
    )
@@ -21,9 +24,7 @@
    return (
      <Routes>
        <Route path="/" element={<Layout />}>
-       {/* daftarin semua halaman disini biar react bisa navigasi */}
-         <Route index element={<HomePage />} />
-         
+         <Route index element={<Dashboard/>} />
        </Route>
      </Routes>
    )
