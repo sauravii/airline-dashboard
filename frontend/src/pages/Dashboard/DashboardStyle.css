@@ -144,12 +144,13 @@
     width: 100%;
     height: 100%;
     border-radius: 0%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   
     overflow-y: scroll;
 }
 .card{
   
     display: flex;
+    position: relative;
     flex-direction: column;
     align-items: flex-start;   
     justify-content: flex-start;
@@ -195,26 +196,29 @@
 .card .time .Arrive, .depart h2{
     font-style: bold;
 }
-.card .header{
+.card .headeran{
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 90%;
     background: transparent;
     margin: 0 ;
+    border: none;
 }
 
-.card .header .head{
+.card .headeran .head{
     background: transparent;
+    border: none;
 
 }
 
-.card .header .head h2{
+
+.card .headeran .head h2{
     font-style: bold;
     font-size: 150%;
 }
 
-.card .header .head span{
+.card .headeran .head span{
     font-size: 85%;
     background: transparent;
 }
@@ -225,11 +229,51 @@
     background: transparent;
 }
 
-.card .days{
-    position: absolute;
-    margin: 20% 0 ;
-    background: transparent;
-    font-size: 80%;
-    color: #555555;
+.plane-info {
+  text-align: right;     /* teks rata kanan */
+  margin-left: auto;     /* dorong ke kanan */
+  font-size: 90%;
 }
+
+
+.card .days {
+  position: absolute;
+  left: 16px;    /* pojok kiri */
+  bottom: 16px;  /* pojok bawah */
+
+  background: transparent;
+  font-size: 80%;
+  color: #555555;
+  font-family: 'Montserrat', sans-serif;
+}
+
+
+.card .isi .btns {
+  position: absolute;
+  right: 16px;   /* jarak dari kanan */
+  bottom: 16px;  /* jarak dari bawah */
+  background: transparent;
+}
+
+
+.card .isi .deletebtn {
+  all: unset;
+  background: #bf1f1f;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: transform 0.2s, background-color 0.2s;
+}
+.card .isi .deletebtn img {
+    background: transparent;
+  width: 100%;
+  height: 100%;
+}
+
+
 

@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 
+
 .add-flight-container {
   width: 100vw;
   height: 100vh;
@@ -12,11 +13,10 @@
   flex-direction: column;
   font-family: 'Montserrat', sans-serif;
 }
-h1{
-    display: inline-block;
-    align-items: center;
-    margin: 60px 0;
-    padding: 12px 60px;
+.title{
+    background: transparent;
+    text-align: center;
+    padding: 20px;
 }
 .header {
   width: 100%;

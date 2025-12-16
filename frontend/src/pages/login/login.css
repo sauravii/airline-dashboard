@@ -1,0 +1,101 @@
+.background-login {
+  width: 100vw;
+  height: 100vh;
+  background: #fafafa;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centered-boxlgn {
+  width: 400px;
+  padding: 28px 24px 36px;
+  background-color: #333;
+  border-radius: 20px;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  margin: 0 auto;
+
+  text-align: center;
+}
+
+h1 {
+    background: transparent;
+  color: white;
+
+  margin: 0 0 24px 0; /* atas 0, bawah 24px */
+    font-family: 'Montserrat', sans-serif;
+}
+
+.login-box{
+    background: transparent;
+}
+
+.login-input{
+    background: transparent;
+}
+
+.login-box {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* INPUT */
+.login-input {
+  width: 100%;
+  height: 48px;
+
+  background: rgba(255, 255, 255, 0.15); /* transparan dikit */
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+
+  border-radius: 30px; /* ini bikin bunder */
+  padding: 0 20px;
+
+  font-size: 15px;
+  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+
+  outline: none;
+  backdrop-filter: blur(6px); /* glass effect */
+  transition: all 0.3s ease;
+}
+
+/* placeholder */
+.login-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* focus effect */
+.login-input:focus {
+  border-color: #4a90e2;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* BUTTON */
+.login-btn {
+
+  width: 70%;
+  margin: 0 auto;
+  display: block;
+
+
+  height: 48px;
+  border-radius: 30px;
+  border: none;
+
+  background:#fafafa;
+  color: black;
+
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-btn:hover {
+  background: #1d4ed8;
+}

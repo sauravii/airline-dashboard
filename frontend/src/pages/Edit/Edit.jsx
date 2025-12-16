@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './Add.css';
+import './Edit.css';
 
 export default function AddFlight() {
   const [selectedTimezone, setSelectedTimezone] = useState('WITA');
@@ -17,9 +17,8 @@ export default function AddFlight() {
 
   return (
     <div className="add-flight-container">
-         <h1>Edit Mode</h1> 
+      <div className="title"> <h1>Edit</h1></div>
       <div className="content">
-        
         <div className="form-container">
           <div className="form-grid">
             {/* Flight Code */}
@@ -30,7 +29,11 @@ export default function AddFlight() {
                 className="form-input" 
                 placeholder="Enter flight code"
               />
+              
             
+
+            
+
             {/* Aircraft Type */}
             <div className="form-group">
               <label className="form-label">Aircraft Type</label>

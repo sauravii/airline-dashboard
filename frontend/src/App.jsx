@@ -4,7 +4,7 @@
  import Add from './pages/Add/Add.jsx'
  import './App.css'
  import Remove from './pages/remove/remove.jsx'
-
+ import Login from './pages/login/login.jsx'
  import { AuthContext } from './context/AuthContext'
  import Dashboard from './pages/Dashboard/DashboardScreen.jsx'
 
@@ -24,7 +24,10 @@
    return (
      <Routes>
        <Route path="/" element={<Layout />}>
+       <Route path="add" element={<Add />} />
+        <Route path="/remove/:id" element={<Remove />} />
          <Route index element={<Dashboard/>} />
+         <Route path="login" element={<Login />} />
        </Route>
      </Routes>
    )

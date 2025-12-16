@@ -19,12 +19,14 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-.centered-box .h1 {
+.centered-box h1 {
     background: transparent;
+    font-family: 'Montserrat', sans-serif;
   color: #ffffff;
-  font-size: 28px;
-  font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
+  font-size: 35px;
+  font-weight: 400;
+  
+  
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -33,7 +35,7 @@
 .centered-box h2 {
 background: transparent;
   color: #ffffff;
-  font-size: 32px;
+  font-size: 39px;
   font-weight: 700;
   font-family: 'Montserrat', sans-serif;
   margin: 10px 0;
@@ -41,6 +43,7 @@ background: transparent;
 
 .form-check {
   display: flex;
+  background: transparent;
   align-items: center;
   gap: 10px;
   margin: 15px 0;
@@ -52,15 +55,15 @@ background: transparent;
   background: transparent;
   gap: 10px;
   color: #ffffff;
-  font-size: 14px;
+  font-size: 15px;
   font-family: 'Montserrat', sans-serif;
   cursor: pointer;
   user-select: none;
 }
 
 .form-check-input {
-  width: 18px;
-  height: 18px;
+  width: 13px;
+  height: 1px;
   
   cursor: pointer;
   accent-color: #dc2626;

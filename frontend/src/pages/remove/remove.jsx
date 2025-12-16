@@ -1,4 +1,4 @@
-import './Remove.css';
+import './remove.css';
 import Head from '../Header/header.jsx';
 
 const pesawat = {
