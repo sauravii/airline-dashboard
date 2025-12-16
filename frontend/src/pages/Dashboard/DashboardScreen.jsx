@@ -3,6 +3,10 @@ import Frame from '../../assets/frame.svg'
 import Trash from '../../assets/trash.svg'
 import Add from '../../assets/add.svg'
 import Head from '../Header/header.jsx'
+import { useNavigate } from "react-router-dom";
+import Remove from '../remove/remove.jsx'
+import { useState } from 'react';
+
 
 const pesawat = [
   {
@@ -96,7 +100,11 @@ const pesawat = [
     days: 'Mon, Wed, Fri'
   },
 ]
-function Box() {
+
+
+
+function Box({ showDelete }) {
+  const navigate = useNavigate();
   return (
     <>
     <Head />
@@ -104,12 +112,12 @@ function Box() {
             {pesawat.map((item, index) => (
               <div className="card" key={index}>
                 <div className="isi">
-                  <div className="header">
+                  <div className="headeran">
                     <div className="head">
                       <h2>{item.flight}</h2>
                     <span>{item.route}</span>
                     </div>
-                    <p>{item.plane} <br />
+                    <p className='plane-info'>{item.plane} <br />
                       {item.type}
                     </p>
 
@@ -130,9 +138,18 @@ function Box() {
                     <div className="days">
                       <span>{item.days}</span>
                     </div>
-                  
-
+                    {showDelete && (
+                      <div className="btns">
+                        <button className='deletebtn'  onClick={(e) => {
+                                                          e.stopPropagation();
+                                                          navigate(`/remove/${item.flight}`);
+                                                        }}>
+                          <img src={Trash} alt="delete" />
+                        </button>
+                      </div>
+                    )}
                 </div>
+                
               </div>
             ))}
           </div>
@@ -142,25 +159,25 @@ function Box() {
 }
 
 export default function DashboardScreen() {
+  const [showDelete, setShowDelete] = useState(false);
+  const navigate = useNavigate();
   return (
-    <>
-      
-      <div className="background">
+    <div className="background">
         <div className="leftside">
           <div className="upper">
-            <button className="btn"> <img src={Frame} /> Outbond</button>
-            <button className="btn"><img src={Frame} /> Inbound</button>
+            <button className="btn"> <img src={Frame} alt=''/> Outbond</button>
+            <button className="btn"><img src={Frame} alt=''/> Inbound</button>
           </div>
           <div className="under">
-            <button className='btnadd'><img src={Add}/> Add Flight</button>
-            <button className='btnrem'><img src={Trash}/> Remove Flight</button>
+            <button onClick={()=>navigate("/add")} className='btnadd' ><img src={Add} alt=''/> Add Flight</button>
+            <button  className='btnrem' onClick={(e) => {e.stopPropagation();setShowDelete(true) }} ><img src={Trash} alt=''/> Remove Flight</button>
           </div>
         </div>
         <div className="right_side">
-          <Box />
+          <Box showDelete={showDelete} />
+
 
         </div>
       </div>
-    </>
   )
 }
