@@ -67,7 +67,8 @@ Response (200 OK):
   {
     "aircraftId": 1,
     "model": "Boeing 737",
-    "totalSeats": 180
+    "totalSeats": 180,
+    "status": "ACTIVE"
   }
 ]
 ```
@@ -84,7 +85,8 @@ Response (200 OK):
 {
   "aircraftId": 1,
   "model": "Boeing 737",
-  "totalSeats": 180
+  "totalSeats": 180,
+  "status": "ACTIVE"
 }
 ```
 
@@ -104,7 +106,8 @@ Request body:
 ```json
 {
   "model": "Boeing 737",
-  "totalSeats": 180
+  "totalSeats": 180,
+  "status": "ACTIVE"
 }
 ```
 
@@ -114,7 +117,8 @@ Response (201 Created):
 {
   "aircraftId": 1,
   "model": "Boeing 737",
-  "totalSeats": 180
+  "totalSeats": 180,
+  "status": "ACTIVE"
 }
 ```
 
@@ -138,7 +142,8 @@ Request body:
 ```json
 {
   "model": "Boeing 737 MAX",
-  "totalSeats": 190
+  "totalSeats": 190,
+  "status": "MAINTENANCE"
 }
 ```
 
@@ -148,7 +153,8 @@ Response (200 OK):
 {
   "aircraftId": 1,
   "model": "Boeing 737 MAX",
-  "totalSeats": 190
+  "totalSeats": 190,
+  "status": "MAINTENANCE"
 }
 ```
 
@@ -314,6 +320,202 @@ Jika `aircraftId` tidak ditemukan:
 Response:
 
 - `204 No Content`
+
+Jika ID tidak ditemukan:
+
+- `404 Not Found`
+
+---
+
+## Price API
+
+Base path: `/api/price`
+
+### 1) Get Price by Flight ID
+
+- **Method**: `GET`
+- **Path**: `/api/price/{flightId}`
+- **Auth**: Bearer Token
+
+Response (200 OK):
+
+```json
+{
+  "priceId": 1,
+  "flightId": 1,
+  "price": 250000.00
+}
+```
+
+Jika price belum dibuat:
+
+- `404 Not Found`
+
+### 2) Upsert Price by Flight ID
+
+- **Method**: `PUT`
+- **Path**: `/api/price/{flightId}`
+- **Auth**: Bearer Token
+- **Content-Type**: `application/json`
+
+Request body:
+
+```json
+{
+  "price": 250000.00
+}
+```
+
+Response (200 OK):
+
+```json
+{
+  "priceId": 1,
+  "flightId": 1,
+  "price": 250000.00
+}
+```
+
+Jika flight tidak ditemukan:
+
+- `400 Bad Request`
+- Message: `Flight not found`
+
+---
+
+## Reservations API
+
+Base path: `/api/reservations`
+
+### 1) Get All Reservations
+
+- **Method**: `GET`
+- **Path**: `/api/reservations`
+- **Auth**: Bearer Token
+
+Response (200 OK):
+
+```json
+[
+  {
+    "reservationId": 1,
+    "flightId": 1,
+    "totalSeat": 2,
+    "totalAmount": 500000.00,
+    "status": "BOOKED",
+    "createdAt": "2025-12-29T12:40:00",
+    "passengers": [
+      {
+        "passengerId": 1,
+        "name": "Budi",
+        "idNumber": "3276xxxxxxxxxxxx",
+        "gender": "MALE",
+        "dob": "2002-01-01",
+        "nationality": "ID"
+      }
+    ]
+  }
+]
+```
+
+### 2) Get Reservation by ID
+
+- **Method**: `GET`
+- **Path**: `/api/reservations/{id}`
+- **Auth**: Bearer Token
+
+Jika ID tidak ditemukan:
+
+- `404 Not Found`
+
+### 3) Create Reservation (Booking)
+
+- **Method**: `POST`
+- **Path**: `/api/reservations`
+- **Auth**: Bearer Token
+- **Content-Type**: `application/json`
+
+Request body:
+
+```json
+{
+  "flightId": 1,
+  "passengers": [
+    {
+      "name": "Budi",
+      "idNumber": "3276xxxxxxxxxxxx",
+      "gender": "MALE",
+      "dob": "2002-01-01",
+      "nationality": "ID"
+    },
+    {
+      "name": "Siti",
+      "idNumber": "A12345678",
+      "gender": "FEMALE",
+      "dob": "2001-05-20",
+      "nationality": "ID"
+    }
+  ]
+}
+```
+
+Response (201 Created):
+
+```json
+{
+  "reservationId": 1,
+  "flightId": 1,
+  "totalSeat": 2,
+  "totalAmount": 500000.00,
+  "status": "BOOKED",
+  "createdAt": "2025-12-29T12:40:00",
+  "passengers": [
+    {
+      "passengerId": 1,
+      "name": "Budi",
+      "idNumber": "3276xxxxxxxxxxxx",
+      "gender": "MALE",
+      "dob": "2002-01-01",
+      "nationality": "ID"
+    }
+  ]
+}
+```
+
+Jika flight tidak ditemukan:
+
+- `400 Bad Request`
+- Message: `Flight not found`
+
+Jika price untuk flight belum dibuat:
+
+- `400 Bad Request`
+- Message: `Price not found for this flight`
+
+Jika kursi tidak cukup:
+
+- `409 Conflict`
+- Message: `Not enough seats available`
+
+### 4) Cancel Reservation
+
+- **Method**: `PUT`
+- **Path**: `/api/reservations/{id}/cancel`
+- **Auth**: Bearer Token
+
+Response (200 OK):
+
+```json
+{
+  "reservationId": 1,
+  "flightId": 1,
+  "totalSeat": 2,
+  "totalAmount": 500000.00,
+  "status": "CANCELLED",
+  "createdAt": "2025-12-29T12:40:00",
+  "passengers": []
+}
+```
 
 Jika ID tidak ditemukan:
 
