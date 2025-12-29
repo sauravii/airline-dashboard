@@ -2,6 +2,8 @@ package com.airline.dashboard.aircraft;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,6 +23,10 @@ public class Aircraft {
 
     @Column(name = "total_seats", nullable = false)
     private Integer totalSeats;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private AircraftStatus status;
 
     public Long getAircraftId() {
         return aircraftId;
@@ -44,5 +50,13 @@ public class Aircraft {
 
     public void setTotalSeats(Integer totalSeats) {
         this.totalSeats = totalSeats;
+    }
+
+    public AircraftStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AircraftStatus status) {
+        this.status = status;
     }
 }

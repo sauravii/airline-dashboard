@@ -1,5 +1,7 @@
 package com.airline.dashboard.aircraft.dto;
 
+import com.airline.dashboard.aircraft.AircraftStatus;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +14,8 @@ public class AircraftRequest {
     @NotNull
     @Min(1)
     private Integer totalSeats;
+
+    private AircraftStatus status;
 
     public String getModel() {
         return model;
@@ -27,5 +31,13 @@ public class AircraftRequest {
 
     public void setTotalSeats(Integer totalSeats) {
         this.totalSeats = totalSeats;
+    }
+
+    public AircraftStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AircraftStatus status) {
+        this.status = status;
     }
 }

@@ -35,6 +35,7 @@ public class AircraftService {
         Aircraft aircraft = new Aircraft();
         aircraft.setModel(request.getModel());
         aircraft.setTotalSeats(request.getTotalSeats());
+        aircraft.setStatus(request.getStatus() != null ? request.getStatus() : AircraftStatus.ACTIVE);
 
         Aircraft saved = aircraftRepository.save(aircraft);
         return toResponse(saved);
@@ -46,6 +47,9 @@ public class AircraftService {
 
         aircraft.setModel(request.getModel());
         aircraft.setTotalSeats(request.getTotalSeats());
+        if (request.getStatus() != null) {
+            aircraft.setStatus(request.getStatus());
+        }
 
         Aircraft saved = aircraftRepository.save(aircraft);
         return toResponse(saved);
@@ -63,6 +67,6 @@ public class AircraftService {
     }
 
     private AircraftResponse toResponse(Aircraft aircraft) {
-        return new AircraftResponse(aircraft.getAircraftId(), aircraft.getModel(), aircraft.getTotalSeats());
+        return new AircraftResponse(aircraft.getAircraftId(), aircraft.getModel(), aircraft.getTotalSeats(), aircraft.getStatus());
     }
 }
