@@ -42,6 +42,9 @@ public class FlightService {
         flight.setOrigin(request.getOrigin());
         flight.setDestination(request.getDestination());
         flight.setDepartureTime(request.getDepartureTime());
+        flight.setArrivalTime(request.getDepartureTime());
+        flight.setTotalSeats(aircraft.getTotalSeats());
+        flight.setRemainingSeats(aircraft.getTotalSeats());
         flight.setAircraft(aircraft);
 
         Flight saved = flightRepository.save(flight);
@@ -58,6 +61,18 @@ public class FlightService {
         flight.setOrigin(request.getOrigin());
         flight.setDestination(request.getDestination());
         flight.setDepartureTime(request.getDepartureTime());
+
+        if (flight.getArrivalTime() == null) {
+            flight.setArrivalTime(request.getDepartureTime());
+        }
+
+        if (flight.getTotalSeats() == null) {
+            flight.setTotalSeats(aircraft.getTotalSeats());
+        }
+
+        if (flight.getRemainingSeats() == null) {
+            flight.setRemainingSeats(aircraft.getTotalSeats());
+        }
         flight.setAircraft(aircraft);
 
         Flight saved = flightRepository.save(flight);

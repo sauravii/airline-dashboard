@@ -35,6 +35,7 @@ public class AircraftService {
         Aircraft aircraft = new Aircraft();
         aircraft.setModel(request.getModel());
         aircraft.setTotalSeats(request.getTotalSeats());
+        aircraft.setStatus("Active");
 
         Aircraft saved = aircraftRepository.save(aircraft);
         return toResponse(saved);

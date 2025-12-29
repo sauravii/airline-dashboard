@@ -32,6 +32,15 @@ public class Flight {
     @Column(name = "departure_time", nullable = false)
     private LocalDateTime departureTime;
 
+    @Column(name = "arrival_time", nullable = false)
+    private LocalDateTime arrivalTime;
+
+    @Column(name = "total_seats", nullable = false)
+    private Integer totalSeats;
+
+    @Column(name = "remaining_seats", nullable = false)
+    private Integer remainingSeats;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "aircraft_id", nullable = false)
     private Aircraft aircraft;
@@ -66,6 +75,30 @@ public class Flight {
 
     public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
+    }
+
+    public LocalDateTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalDateTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public Integer getTotalSeats() {
+        return totalSeats;
+    }
+
+    public void setTotalSeats(Integer totalSeats) {
+        this.totalSeats = totalSeats;
+    }
+
+    public Integer getRemainingSeats() {
+        return remainingSeats;
+    }
+
+    public void setRemainingSeats(Integer remainingSeats) {
+        this.remainingSeats = remainingSeats;
     }
 
     public Aircraft getAircraft() {
