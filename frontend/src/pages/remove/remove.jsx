@@ -7,7 +7,6 @@ const pesawat = {
 
 export default function Remove() {
   return (
-    <>
       <div className="backgroundremove">
         <div className="centered-box">
           <h1>Remove Flight</h1>
@@ -30,6 +29,5 @@ export default function Remove() {
           <button className="RemoveButton">Confirm</button>
         </div>
       </div>
-    </>
   );
 }

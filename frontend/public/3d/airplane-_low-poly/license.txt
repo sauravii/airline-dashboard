@@ -1,0 +1,11 @@
+Model Information:
+* title:	Airplane- Low-Poly
+* source:	https://sketchfab.com/3d-models/airplane-low-poly-8b8327355b5e426db4f621fa91c9cdde
+* author:	samsco (https://sketchfab.com/samsco)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Airplane- Low-Poly" (https://sketchfab.com/3d-models/airplane-low-poly-8b8327355b5e426db4f621fa91c9cdde) by samsco (https://sketchfab.com/samsco) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

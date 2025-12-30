@@ -1,7 +1,7 @@
 .backgroundhead {
   width: 100vw;        /* 🔥 PAKAI INI */
   height: 50px;
-
+  background-color: #ffffff;
   background-size: cover;
   background-position: center;
 
