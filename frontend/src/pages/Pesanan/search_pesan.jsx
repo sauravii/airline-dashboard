@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plane, Menu, Calendar, Clock, ArrowRight } from 'lucide-react';
-import './KomodoAir.css';
+// import './KomodoAir.css';
 
 export default function KomodoAirList() {
   const [selectedFlight, setSelectedFlight] = useState(null);

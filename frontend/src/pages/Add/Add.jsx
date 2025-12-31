@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Add.css'
 import { createFlight } from '../../services/flight'
 import { getToken } from '../../services/api'
+import { getAllAircraft } from '../../services/aircraft'
 
 
 export default function AddFlight() {
@@ -13,7 +14,33 @@ export default function AddFlight() {
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
   const [aircraftId, setAircraftId] = useState('')
+  const [aircraftList, setAircraftList] = useState([])
+  const [aircraftLoading, setAircraftLoading] = useState(false)
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+
+    const loadAircraft = async () => {
+      try {
+        setAircraftLoading(true)
+        const res = await getAllAircraft()
+        if (cancelled) return
+        setAircraftList(Array.isArray(res) ? res : [])
+      } catch {
+        if (cancelled) return
+        setAircraftList([])
+      } finally {
+        if (cancelled) return
+        setAircraftLoading(false)
+      }
+    }
+
+    loadAircraft()
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -27,10 +54,6 @@ export default function AddFlight() {
       setLoading(true)
       const departureTime = `${date}T${time}:00`
       console.log('Token sebelum request:', getToken());
-await createFlight({ origin: origin.toUpperCase(),
-        destination: destination.toUpperCase(),
-        departureTime,
-        aircraftId: Number(aircraftId), })
       await createFlight({
         origin: origin.toUpperCase(),
         destination: destination.toUpperCase(),
@@ -102,15 +125,22 @@ await createFlight({ origin: origin.toUpperCase(),
           </div>
 
           <div className="form-group-full">
-            <label>Aircraft ID</label>
-            <input
-              type="number"
+            <label>Aircraft Model</label>
+            <select
               value={aircraftId}
               onChange={e => setAircraftId(e.target.value)}
-              placeholder="Enter aircraft ID"
-              min="1"
               required
-            />
+              disabled={loading || aircraftLoading}
+            >
+              <option value="" disabled>
+                {aircraftLoading ? 'Loading aircraft...' : 'Select aircraft'}
+              </option>
+              {aircraftList.map((a) => (
+                <option key={a.aircraftId} value={a.aircraftId}>
+                  {a.model}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="button-row">

@@ -2,13 +2,15 @@ import './remove.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getFlightById, deleteFlight } from '../../services/flight';
+import { getAircraftById } from '../../services/aircraft';
 import { AlertTriangle, ArrowLeft, Trash2 } from 'lucide-react';
 
 export default function Remove() {
-  const { flight: flightId } = useParams();
+  const { flightId } = useParams();
   const navigate = useNavigate();
   
   const [flight, setFlight] = useState(null);
+  const [aircraftModel, setAircraftModel] = useState('');
   const [loading, setLoading] = useState(true);
   const [confirmed, setConfirmed] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -18,7 +20,18 @@ export default function Remove() {
       getFlightById(flightId)
         .then(data => {
           setFlight(data);
+          setAircraftModel('');
           setLoading(false);
+
+          if (data?.aircraftId != null) {
+            getAircraftById(data.aircraftId)
+              .then((aircraft) => {
+                setAircraftModel(aircraft?.model || '');
+              })
+              .catch(() => {
+                setAircraftModel('');
+              });
+          }
         })
         .catch(err => {
           console.error(err);
@@ -83,7 +96,7 @@ export default function Remove() {
 
         {/* Warning Icon */}
         <div className="warning-icon">
-          <AlertTriangle size={64} color="#dc2626" />
+          <AlertTriangle size={44} color="#dc2626" />
         </div>
 
         {/* Title */}
@@ -105,8 +118,8 @@ export default function Remove() {
               <span className="value">{formatDateTime(flight.departureTime)}</span>
             </div>
             <div className="info-row">
-              <span className="label">Aircraft ID:</span>
-              <span className="value">{flight.aircraftId}</span>
+              <span className="label">Aircraft:</span>
+              <span className="value">{aircraftModel ? `${aircraftModel}` : flight.aircraftId}</span>
             </div>
           </div>
         )}

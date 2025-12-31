@@ -37,6 +37,8 @@
 
 /* Main Container */
 .centered-box {
+  margin-top: 30px;
+  height: 87%;
   width: 90%;
   max-width: 550px;
   background: white;
@@ -89,6 +91,7 @@
 /* Warning Icon */
 .warning-icon {
   margin-top: 20px;
+  margin-bottom: -25px;
   animation: pulse 2s ease-in-out infinite;
 }
 
@@ -214,7 +217,6 @@
   width: 100%;
   display: flex;
   gap: 12px;
-  margin-top: 8px;
 }
 
 .CancelButton,

@@ -2,7 +2,7 @@ import { apiFetch } from './api'
 
 // GET ALL
 export function getAllAircraft() {
-  return apiFetch('http://localhost:8081/api/aircraft')
+  return apiFetch('/api/aircraft')
 }
 
 //GetId
@@ -20,7 +20,7 @@ export function updateAircraft(id, { model, totalSeats, status }) {
 
 // CREATE
 export function createAircraft({ model, totalSeats }) {
-  return apiFetch('http://localhost:8081/api/aircraft', {
+  return apiFetch('/api/aircraft', {
     method: 'POST',
     body: JSON.stringify({ model, totalSeats }),
   })
@@ -28,7 +28,7 @@ export function createAircraft({ model, totalSeats }) {
 
 // DELETE
 export function deleteAircraft(aircraftId) {
-  return apiFetch(`http://localhost:8081/api/aircraft/${aircraftId}`, {
+  return apiFetch(`/api/aircraft/${aircraftId}`, {
     method: 'DELETE',
   })
 }
