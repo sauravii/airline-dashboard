@@ -1,3 +1,4 @@
+const BASE_URL = "http://localhost:8081";
 const TOKEN_KEY = 'airline_dashboard_token'
 
 export function getToken() {
@@ -12,7 +13,9 @@ export function setToken(token) {
   localStorage.setItem(TOKEN_KEY, token)
 }
 
-export async function apiFetch(path, { token, ...options } = {}) {
+export async function apiFetch(path, options = {}) {
+  const token = getToken()
+
   const headers = new Headers(options.headers || {})
   if (!headers.has('Content-Type') && options.body) {
     headers.set('Content-Type', 'application/json')
@@ -21,7 +24,7 @@ export async function apiFetch(path, { token, ...options } = {}) {
     headers.set('Authorization', `Bearer ${token}`)
   }
 
-  const res = await fetch(path, { ...options, headers })
+  const res = await fetch(`${BASE_URL}${path}`, { ...options, headers })
   if (res.status === 204) {
     return null
   }

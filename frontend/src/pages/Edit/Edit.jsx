@@ -1,111 +1,117 @@
-import { useState } from 'react';
-import './Edit.css';
+import { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { getFlightById, updateFlight } from '../../services/flight'
+import './Edit.css'
 
-export default function AddFlight() {
-  const [selectedTimezone, setSelectedTimezone] = useState('WITA');
-  const [selectedDays, setSelectedDays] = useState([]);
+export default function EditFlight() {
+  const { flight } = useParams()
+  const navigate = useNavigate()
 
-  const toggleDay = (day) => {
-    setSelectedDays(prev => 
-      prev.includes(day) 
-        ? prev.filter(d => d !== day)
-        : [...prev, day]
-    );
-  };
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
 
-  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const [form, setForm] = useState({
+    origin: '',
+    destination: '',
+    date: '',
+    time: '',
+    aircraftId: '',
+  })
+
+  // ======================
+  // LOAD DATA
+  // ======================
+  useEffect(() => {
+    const fetchFlight = async () => {
+      try {
+        const data = await getFlightById(flight)
+
+        // pecah datetime -> date & time
+        const [datePart, timePart] = data.departure_time.split(' ')
+
+        setForm({
+          origin: data.origin,
+          destination: data.destination,
+          date: datePart,
+          time: timePart.slice(0, 5), // HH:mm
+          aircraftId: data.aircraft_id,
+        })
+      } catch (err) {
+        alert(err.message || 'Gagal mengambil data flight')
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchFlight()
+  }, [flight])
+
+  // ======================
+  // UPDATE
+  // ======================
+  const handleSubmit = async () => {
+    setSaving(true)
+    try {
+      await updateFlight(flight, {
+        origin: form.origin,
+        destination: form.destination,
+        departureTime: `${form.date} ${form.time}:00`,
+        aircraftId: Number(form.aircraftId),
+      })
+
+      alert('Flight berhasil diupdate')
+      navigate('/admin')
+    } catch (err) {
+      alert(err.message || 'Update gagal')
+      console.error(err)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  if (loading) return <p>Loading...</p>
 
   return (
     <div className="add-flight-container">
-      <div className="title"> <h1>Edit</h1></div>
-      <div className="content">
-        <div className="form-container">
-          <div className="form-grid">
-            {/* Flight Code */}
-            <div className="form-group">
-              <label className="form-label">Flight Code</label>
-              <input 
-                type="text" 
-                className="form-input" 
-                placeholder="Enter flight code"
-              />
-              
-            
+      <h1>Edit Flight #{flight}</h1>
 
-            
+      <div className="form-container">
+        <input
+          value={form.origin}
+          onChange={e => setForm({ ...form, origin: e.target.value })}
+          placeholder="Origin (CGK)"
+        />
 
-            {/* Aircraft Type */}
-            <div className="form-group">
-              <label className="form-label">Aircraft Type</label>
-              <input 
-                type="text" 
-                className="form-input" 
-                placeholder="Enter aircraft type"
-              />
-            </div>
-            {/* Dept. Time */}
-            <div className="form-group">
-              <label className="form-label">Dept. Time</label>
-              <input 
-                type="time" 
-                className="form-input"
-              />
-              <div className="timezone-group">
-                {['WITA', 'WIT', 'WIB'].map(tz => (
-                  <button
-                    key={tz}
-                    className={`timezone-button ${selectedTimezone === tz ? 'active' : ''}`}
-                    onClick={() => setSelectedTimezone(tz)}
-                  >
-                    {tz}
-                  </button>
-                ))}
-              </div>
-            </div>
-            </div>
-            
-            
+        <input
+          value={form.destination}
+          onChange={e => setForm({ ...form, destination: e.target.value })}
+          placeholder="Destination (DPS)"
+        />
 
-            {/* Frequency */}
-            <div className="form-group frequency-section">
-              <label className="form-label">Frequency</label>
-              <div className="frequency-days">
-                {days.map(day => (
-                  <button
-                    key={day}
-                    className={`day-button ${selectedDays.includes(day) ? 'active' : ''}`}
-                    onClick={() => toggleDay(day)}
-                  >
-                    {day}
-                  </button>
-                ))}
-              </div>
-            </div>
+        <input
+          type="date"
+          value={form.date}
+          onChange={e => setForm({ ...form, date: e.target.value })}
+        />
 
-            {/* Dept. Airport */}
-            <div className="form-group">
-              <label className="form-label">Dept. Airport</label>
-              <input 
-                type="text" 
-                className="form-input" 
-                placeholder="Enter departure airport"
-              />
-            </div>
+        <input
+          type="time"
+          value={form.time}
+          onChange={e => setForm({ ...form, time: e.target.value })}
+        />
 
-            {/* Dest. Airport */}
-            <div className="form-group">
-              <label className="form-label">Dest. Airport</label>
-              <input 
-                type="text" 
-                className="form-input" 
-                placeholder="Enter destination airport"
-              />
-            </div>
-          </div>
+        <input
+          type="number"
+          value={form.aircraftId}
+          onChange={e => setForm({ ...form, aircraftId: e.target.value })}
+          placeholder="Aircraft ID"
+        />
 
-          <button className="confirm-button">Confirm</button>
-        </div>
+        <button onClick={handleSubmit} disabled={saving}>
+          {saving ? 'Saving...' : 'Update Flight'}
+        </button>
       </div>
     </div>
-  );
+  )
 }

@@ -1,19 +1,27 @@
- import { useContext } from 'react'
- import { Outlet, Route, Routes } from 'react-router-dom'
- import Head  from './pages/Header/header.jsx' 
- import Add from './pages/Add/Add.jsx'
- import './App.css'
- import Remove from './pages/remove/remove.jsx'
- import Login from './pages/login_user/login.jsx'
- import { AuthContext } from './context/AuthContext'
- import Dashboard from './pages/DashboardAdmin/DashboardScreen.jsx'
+import { Outlet, Route, Routes, Navigate } from 'react-router-dom'
+import Head from './pages/Header/header.jsx'
+
+import Add from './pages/Add/Add.jsx'
+import Remove from './pages/remove/remove.jsx'
+import Edit from './pages/Edit/Edit.jsx'
+import Login from './pages/login_user/login.jsx'
+import Dashboard from './pages/DashboardAdmin/DashboardScreen.jsx'
 import TestScene from './pages/asset/test.jsx'
 import FlightSearchBox from './pages/Pesanan/pesan.jsx'
 import KomodoAirList from './pages/Pesanan/search_pesan.jsx'
 import LandingPage from './pages/landingPage/Landingpage.jsx'
 
- 
- // Layout dengan Header
+import { getToken } from './services/api.js'
+import './App.css'
+
+// ========== PROTECTED ROUTE ==========
+function ProtectedRoute({ children }) {
+  const token = getToken()
+  if (!token) return <Navigate to="/login" replace />
+  return children
+}
+
+// ========== LAYOUT ==========
 function LayoutWithHeader() {
   return (
     <>
@@ -23,29 +31,46 @@ function LayoutWithHeader() {
   )
 }
 
-// Layout tanpa Header
 function LayoutWithoutHeader() {
   return <Outlet />
 }
 
+// ========== APP ==========
 export default function App() {
   return (
     <Routes>
-      {/* Routes DENGAN Header */}
-      <Route path="/" element={<LayoutWithHeader />}>
-        <Route index element={<Dashboard/>} />
-        <Route path="add" element={<Add />} />
-        <Route path="/remove/:id" element={<Remove />} />
-        <Route path="test" element={<TestScene />} />
+
+      {/* ===== PUBLIC (WITH HEADER) ===== */}
+      <Route path='/' element={<LayoutWithHeader />}>
         <Route path="search" element={<FlightSearchBox />} />
         <Route path="list" element={<KomodoAirList />} />
       </Route>
 
-      {/* Routes TANPA Header */}
-      <Route element={<LayoutWithoutHeader />}>
-        <Route path="login" element={<Login />} />
-        <Route path="Landing" element={<LandingPage />} />
+      {/* ===== ADMIN (PROTECTED) ===== */}
+      <Route
+        path="admin/"
+        element={
+          <ProtectedRoute>
+            <LayoutWithHeader />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Dashboard />} />
+        <Route path="add" element={<Add />} />
+        <Route path="remove/:flightId" element={<Remove />} />
+        <Route path="edit/:flightId" element={<Edit />} />
+        <Route path="test" element={<TestScene />} />
       </Route>
+
+      {/* ===== PUBLIC (NO HEADER) ===== */}
+      <Route path='' element={<LayoutWithoutHeader />}>
+        <Route index element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+      </Route>
+
+      {/* ===== 404 ===== */}
+      <Route path="*" element={<Navigate to="/login" replace />} />
+
     </Routes>
   )
 }

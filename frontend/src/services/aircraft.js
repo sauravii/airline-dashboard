@@ -1,20 +1,34 @@
 import { apiFetch } from './api'
 
-export function getAllAircraft({ token }) {
-  return apiFetch('/api/aircraft', { token })
+// GET ALL
+export function getAllAircraft() {
+  return apiFetch('http://localhost:8081/api/aircraft')
 }
 
-export function createAircraft({ token, model, totalSeats }) {
-  return apiFetch('/api/aircraft', {
-    token,
+//GetId
+export function getAircraftById(id) {
+  return apiFetch(`/api/aircraft/${id}`)
+}
+
+//Update
+export function updateAircraft(id, { model, totalSeats, status }) {
+  return apiFetch(`/api/aircraft/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ model, totalSeats, status }),
+  })
+}
+
+// CREATE
+export function createAircraft({ model, totalSeats }) {
+  return apiFetch('http://localhost:8081/api/aircraft', {
     method: 'POST',
     body: JSON.stringify({ model, totalSeats }),
   })
 }
 
-export function deleteAircraft({ token, aircraftId }) {
-  return apiFetch(`/api/aircraft/${aircraftId}`, {
-    token,
+// DELETE
+export function deleteAircraft(aircraftId) {
+  return apiFetch(`http://localhost:8081/api/aircraft/${aircraftId}`, {
     method: 'DELETE',
   })
 }

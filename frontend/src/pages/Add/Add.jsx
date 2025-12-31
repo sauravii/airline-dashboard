@@ -1,172 +1,137 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Add.css'
-
 import { createFlight } from '../../services/flight'
 import { getToken } from '../../services/api'
+
 
 export default function AddFlight() {
   const navigate = useNavigate()
 
-  // ===== FORM STATE =====
-  const [flightCode, setFlightCode] = useState('')
-  const [aircraftType, setAircraftType] = useState('')
-  const [deptTime, setDeptTime] = useState('')
-  const [deptAirport, setDeptAirport] = useState('')
-  const [destAirport, setDestAirport] = useState('')
-
-  const [selectedTimezone, setSelectedTimezone] = useState('WITA')
-  const [selectedDays, setSelectedDays] = useState([])
-
+  const [origin, setOrigin] = useState('')
+  const [destination, setDestination] = useState('')
+  const [date, setDate] = useState('')
+  const [time, setTime] = useState('')
+  const [aircraftId, setAircraftId] = useState('')
   const [loading, setLoading] = useState(false)
 
-  // ===== CONSTANT =====
-  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+  const handleSubmit = async (e) => {
+    e.preventDefault()
 
-  // ===== HANDLERS =====
-  const toggleDay = (day) => {
-    setSelectedDays(prev =>
-      prev.includes(day)
-        ? prev.filter(d => d !== day)
-        : [...prev, day]
-    )
-  }
-
-  const handleSubmit = async () => {
-    if (!flightCode || !deptAirport || !destAirport || !deptTime) {
-      alert('Please fill all required fields')
+    if (!origin || !destination || !date || !time || !aircraftId) {
+      alert('Semua field wajib diisi')
       return
     }
 
     try {
       setLoading(true)
-
+      const departureTime = `${date}T${time}:00`
+      console.log('Token sebelum request:', getToken());
+await createFlight({ origin: origin.toUpperCase(),
+        destination: destination.toUpperCase(),
+        departureTime,
+        aircraftId: Number(aircraftId), })
       await createFlight({
-        token: getToken(),
-        flightCode,
-        origin: deptAirport,
-        destination: destAirport,
-        departureTime: `${deptTime} ${selectedTimezone}`,
-        aircraftId: aircraftType,
-        days: selectedDays,
+        origin: origin.toUpperCase(),
+        destination: destination.toUpperCase(),
+        departureTime,
+        aircraftId: Number(aircraftId),
       })
 
-      navigate('/dashboard')
+      alert('Flight berhasil ditambahkan!')
+      navigate('/admin')
     } catch (err) {
-      alert(err.message || 'Failed to create flight')
+      alert(err.message || 'Gagal tambah flight')
     } finally {
       setLoading(false)
     }
   }
 
-  // ===== UI =====
   return (
     <div className="add-flight-container">
-      <h1>Add Flight</h1>
-
-      <div className="content">
-        <div className="form-container">
-          <div className="form-grid">
-
-            {/* Flight Code */}
+      <div className="add-flight-content">
+        <h1>Add New Flight</h1>
+        
+        <form className="add-flight-form" onSubmit={handleSubmit}>
+          <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Flight Code</label>
+              <label>Departure Airport</label>
               <input
                 type="text"
-                className="form-input"
-                placeholder="KA100"
-                value={flightCode}
-                onChange={(e) => setFlightCode(e.target.value)}
+                value={origin}
+                onChange={e => setOrigin(e.target.value)}
+                placeholder="e.g. CGK, JKT, SUB"
+                maxLength={3}
+                required
               />
             </div>
 
-            {/* Aircraft Type */}
             <div className="form-group">
-              <label className="form-label">Aircraft Type</label>
+              <label>Destination Airport</label>
               <input
                 type="text"
-                className="form-input"
-                placeholder="input aircraft type"
-                value={aircraftType}
-                onChange={(e) => setAircraftType(e.target.value)}
+                value={destination}
+                onChange={e => setDestination(e.target.value)}
+                placeholder="e.g. DPS, BDO, UPG"
+                maxLength={3}
+                required
               />
             </div>
-
-            {/* Dept Time */}
-            <div className="form-group">
-              <label className="form-label">Departure Time</label>
-              <input
-                type="time"
-                className="form-input"
-                value={deptTime}
-                onChange={(e) => setDeptTime(e.target.value)}
-              />
-
-              <div className="timezone-group">
-                {['WITA', 'WIT', 'WIB'].map(tz => (
-                  <button
-                    key={tz}
-                    type="button"
-                    className={`timezone-button ${selectedTimezone === tz ? 'active' : ''}`}
-                    onClick={() => setSelectedTimezone(tz)}
-                  >
-                    {tz}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Frequency */}
-            <div className="form-group frequency-section">
-              <label className="form-label">Frequency</label>
-              <div className="frequency-days">
-                {days.map(day => (
-                  <button
-                    key={day}
-                    type="button"
-                    className={`day-button ${selectedDays.includes(day) ? 'active' : ''}`}
-                    onClick={() => toggleDay(day)}
-                  >
-                    {day}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Dept Airport */}
-            <div className="form-group">
-              <label className="form-label">Dept. Airport</label>
-              <input
-                type="text"
-                className="form-input"
-                placeholder="input departure airport"
-                value={deptAirport}
-                onChange={(e) => setDeptAirport(e.target.value)}
-              />
-            </div>
-
-            {/* Dest Airport */}
-            <div className="form-group">
-              <label className="form-label">Dest. Airport</label>
-              <input
-                type="text"
-                className="form-input"
-                placeholder="input destination airport"
-                value={destAirport}
-                onChange={(e) => setDestAirport(e.target.value)}
-              />
-            </div>
-
           </div>
 
-          <button
-            className="confirm-button"
-            onClick={handleSubmit}
-            disabled={loading}
-          >
-            {loading ? 'Saving...' : 'Confirm'}
-          </button>
-        </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Departure Date</label>
+              <input
+                type="date"
+                value={date}
+                onChange={e => setDate(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Departure Time</label>
+              <input
+                type="time"
+                value={time}
+                onChange={e => setTime(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-group-full">
+            <label>Aircraft ID</label>
+            <input
+              type="number"
+              value={aircraftId}
+              onChange={e => setAircraftId(e.target.value)}
+              placeholder="Enter aircraft ID"
+              min="1"
+              required
+            />
+          </div>
+
+          <div className="button-row">
+            <button
+              type="button"
+              className="btn-cancel"
+              onClick={() => navigate('/admin')}
+              disabled={loading}
+            >
+              Cancel
+            </button>
+            
+            <button
+              type="submit"
+              className="btn-submit"
+              disabled={loading}
+            >
+              {loading ? 'Adding...' : 'Add Flight'}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   )

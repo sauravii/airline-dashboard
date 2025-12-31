@@ -1,100 +1,308 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
 .backgroundremove {
   width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Montserrat', sans-serif;
 }
 
+/* Loading Spinner */
+.loading-spinner {
+  text-align: center;
+  color: white;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-spinner p {
+  color: white;
+  font-size: 16px;
+}
+
+/* Main Container */
 .centered-box {
-  width: 500px;
-  background-color: #2d2d2d;
-  border-radius: 16px;
+  width: 90%;
+  max-width: 550px;
+  background: white;
+  border-radius: 24px;
   padding: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  gap: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease-out;
+  position: relative;
 }
 
-.centered-box h1 {
-    background: transparent;
-    font-family: 'Montserrat', sans-serif;
-  color: #ffffff;
-  font-size: 35px;
-  font-weight: 400;
-  
-  
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.centered-box h2 {
-background: transparent;
-  color: #ffffff;
-  font-size: 39px;
-  font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
-  margin: 10px 0;
-}
-
-.form-check {
-  display: flex;
+/* Back Button */
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
   background: transparent;
+  border: none;
+  color: #667eea;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 15px 0;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.back-button:hover {
+  background: #f0f0f0;
+  transform: translateX(-4px);
+}
+
+/* Warning Icon */
+.warning-icon {
+  margin-top: 20px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Title */
+.centered-box h1 {
+  color: #2d2d2d;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  text-align: center;
+}
+
+/* Flight Info Card */
+.flight-info-card {
+  width: 100%;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.info-row.route {
+  padding: 16px 0;
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 8px 0;
+  border: none;
+}
+
+.label {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.value {
+  font-size: 15px;
+  color: #2d2d2d;
+  font-weight: 600;
+}
+
+.value-large {
+  font-size: 20px;
+  color: #667eea;
+  font-weight: 700;
+}
+
+/* Warning Message */
+.warning-message {
+  width: 100%;
+  background: #fef2f2;
+  border: 2px solid #fecaca;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.warning-message p {
+  margin: 0;
+  color: #dc2626;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Checkbox */
+.form-check {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 12px;
 }
 
 .form-check-label {
   display: flex;
   align-items: center;
-  background: transparent;
-  gap: 10px;
-  color: #ffffff;
+  gap: 12px;
+  color: #2d2d2d;
   font-size: 15px;
-  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
   cursor: pointer;
   user-select: none;
+  transition: color 0.3s;
+}
+
+.form-check-label:hover {
+  color: #667eea;
 }
 
 .form-check-input {
-  width: 13px;
-  height: 1px;
-  
+  width: 20px;
+  height: 20px;
   cursor: pointer;
   accent-color: #dc2626;
 }
 
-.RemoveButton {
+/* Button Group */
+.button-group {
   width: 100%;
-  max-width: 250px;
-  height: 45px;
-  
-  background-color: #dc2626;
-  color: #ffffff;
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.CancelButton,
+.RemoveButton {
+  flex: 1;
+  height: 48px;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 12px;
+  font-size: 15px;
   font-weight: 600;
-  font-family: 'Montserrat', sans-serif;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.1s;
-  margin-top: 10px;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.RemoveButton:hover {
-  background-color: #b91c1c;
+.CancelButton {
+  background: #f3f4f6;
+  color: #6b7280;
 }
 
-.RemoveButton:active {
-  transform: scale(0.98);
+.CancelButton:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.RemoveButton {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+}
+
+.RemoveButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+}
+
+.RemoveButton:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .RemoveButton:disabled {
-  background-color: #6b7280;
+  background: #d1d5db;
+  color: #9ca3af;
   cursor: not-allowed;
+  box-shadow: none;
+}
+
+.CancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Button Spinner */
+.button-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .centered-box {
+    width: 95%;
+    padding: 30px 20px;
+    gap: 20px;
+  }
+
+  .centered-box h1 {
+    font-size: 26px;
+  }
+
+  .back-button {
+    position: static;
+    margin-bottom: -10px;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .CancelButton,
+  .RemoveButton {
+    width: 100%;
+  }
 }

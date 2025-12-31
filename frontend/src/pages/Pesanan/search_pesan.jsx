@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Plane, Menu, Calendar } from 'lucide-react';
-import './searchStyle.css'
+import { Plane, Menu, Calendar, Clock, ArrowRight } from 'lucide-react';
+import './KomodoAir.css';
 
 export default function KomodoAirList() {
   const [selectedFlight, setSelectedFlight] = useState(null);
@@ -8,120 +8,135 @@ export default function KomodoAirList() {
   const flights = [
     {
       id: 'KA128',
-      departure: { time: '10.00', date: 'Rabu, Des 17', location: 'CGK' },
-      arrival: { time: '10.50', date: 'Rabu, Des 17', location: 'OCW' },
+      departure: { time: '10:00', date: 'Rabu, Des 17', location: 'CGK', city: 'Jakarta' },
+      arrival: { time: '10:50', location: 'KOE', city: 'Kupang' },
       aircraft: 'Airbus A320neo',
-      duration: 'J: 50m',
+      duration: '50m',
       price: 950000
     },
     {
       id: 'KA130',
-      departure: { time: '17.00', date: 'Rabu, Des 17', location: 'CGK' },
-      arrival: { time: '17.50', date: 'Rabu, Des 17', location: 'OCW' },
+      departure: { time: '17:00', date: 'Rabu, Des 17', location: 'CGK', city: 'Jakarta' },
+      arrival: { time: '17:50', location: 'KOE', city: 'Kupang' },
       aircraft: 'Airbus A320neo',
-      duration: 'J: 50m',
+      duration: '50m',
       price: 950000
     }
   ];
 
   return (
-    
+    <div className="app-container">
+      <div className="content-wrapper">
+        {/* Header */}
+        <div className="header">
+          <div className="header-logo">
+            <Plane className="logo-icon" />
+            <h1>Komodo Air</h1>
+          </div>
+          <button className="menu-btn">
+            <Menu />
+          </button>
+        </div>
 
-      <div className="all">
-        <div className="container">
-          {/* Filter Section */}
-          <div className="filter-card">
-            <div className="filter-content">
-              <div className="filter-group">
-                <div className="filter-item">
-                  <Plane className="filter-icon" />
-                  <div>
-                    <div className="filter-title">Pilih Keberangkatan</div>
-                    <div className="filter-subtitle">Kupang, NTT → Jakarta (Soekarno Hatta)</div>
-                  </div>
-                </div>
-                
-                <div className="filter-item">
-                  <Calendar className="filter-icon" />
-                  <div>
-                    <div className="filter-title">Tanggal Keberangkatan</div>
-                    <div className="filter-subtitle">Rabu, 17 Desember 2025</div>
-                  </div>
-                </div>
-              </div>
-              
-              <Menu className="menu-icon" />
+        {/* Search Summary Card */}
+        <div className="search-card">
+          <div className="search-item">
+            <div className="search-icon-wrapper route">
+              <Plane className="search-icon" />
+            </div>
+            <div className="search-info">
+              <span className="search-label">Rute Penerbangan</span>
+              <span className="search-value">Kupang → Jakarta</span>
+              <span className="search-detail">Soekarno Hatta International</span>
             </div>
           </div>
 
-          {/* Flight Cards */}
-          <div className="flight-cards">
-            {flights.map((flight) => (
-              <div key={flight.id} className="flight-card">
-                <div className="flight-content">
-                  {/* Airline Section */}
-                  <div className="airline-section">
-                    <div className="airline-logo">
-                      <Plane className="airline-logo-icon" />
-                    </div>
-                    <div className="airline-info">
-                      <div className="airline-name">Komodo Air</div>
-                      <div className="flight-number">{flight.id}</div>
-                    </div>
-                  </div>
-
-                  {/* Flight Details */}
-                  <div className="flight-details">
-                    {/* Departure */}
-                    <div className="time-section">
-                      <div className="time-label">Keberangkatan</div>
-                      <div className="time-value">{flight.departure.time}</div>
-                      <div className="location-code">{flight.departure.location}</div>
-                      <div className="date-text">{flight.departure.date}</div>
-                    </div>
-
-                    {/* Flight Path */}
-                    <div className="flight-path">
-                      <div className="aircraft-text">{flight.aircraft}</div>
-                      <div className="nonstop-text">Nonstop/fly</div>
-                      <div className="path-line">
-                        <div className="path-dot"></div>
-                        <div className="path-connector">
-                          <Plane className="plane-icon" />
-                        </div>
-                        <div className="path-dot"></div>
-                      </div>
-                      <div className="direct-text">Langsung</div>
-                      <div className="duration-text">{flight.duration}</div>
-                    </div>
-
-                    {/* Arrival */}
-                    <div className="time-section arrival">
-                      <div className="time-label">Kedatangan</div>
-                      <div className="time-value">{flight.arrival.time}</div>
-                      <div className="location-code">{flight.arrival.location}</div>
-                      <div className="date-text">{flight.arrival.date}</div>
-                    </div>
-                  </div>
-
-                  {/* Price Section */}
-                  <div className="price-section">
-                    <div className="price-label">Dari</div>
-                    <div className="price-value">Rp {flight.price.toLocaleString('id-ID')}</div>
-                    <div className="per-person">/orang</div>
-                    <button
-                      onClick={() => setSelectedFlight(flight.id)}
-                      className="select-button"
-                    >
-                      PILIH
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="search-item">
+            <div className="search-icon-wrapper date">
+              <Calendar className="search-icon" />
+            </div>
+            <div className="search-info">
+              <span className="search-label">Tanggal Keberangkatan</span>
+              <span className="search-value">Rabu, 17 Desember 2025</span>
+              <span className="search-detail">1 Penumpang</span>
+            </div>
           </div>
         </div>
+
+        {/* Results Header */}
+        <div className="results-header">
+          <h2>Penerbangan Tersedia</h2>
+          <span className="results-count">{flights.length} penerbangan</span>
+        </div>
+
+        {/* Flight List */}
+        <div className="flight-list">
+          {flights.map((flight) => (
+            <div 
+              key={flight.id} 
+              className={`flight-card ${selectedFlight === flight.id ? 'selected' : ''}`}
+            >
+              {/* Airline Header */}
+              <div className="flight-header">
+                <div className="airline-badge">
+                  <Plane className="airline-icon" />
+                  <div>
+                    <div className="airline-name">Komodo Air</div>
+                    <div className="flight-number">{flight.id}</div>
+                  </div>
+                </div>
+                <div className="aircraft-badge">{flight.aircraft}</div>
+              </div>
+
+              {/* Flight Route */}
+              <div className="flight-route">
+                <div className="route-point">
+                  <div className="route-time">{flight.departure.time}</div>
+                  <div className="route-code">{flight.departure.location}</div>
+                  <div className="route-city">{flight.departure.city}</div>
+                </div>
+
+                <div className="route-line">
+                  <div className="route-duration">
+                    <Clock size={14} />
+                    <span>{flight.duration}</span>
+                  </div>
+                  <div className="route-connector">
+                    <div className="route-dot"></div>
+                    <div className="route-path">
+                      <Plane className="route-plane" />
+                    </div>
+                    <div className="route-dot"></div>
+                  </div>
+                  <div className="route-type">Langsung</div>
+                </div>
+
+                <div className="route-point">
+                  <div className="route-time">{flight.arrival.time}</div>
+                  <div className="route-code">{flight.arrival.location}</div>
+                  <div className="route-city">{flight.arrival.city}</div>
+                </div>
+              </div>
+
+              {/* Flight Footer */}
+              <div className="flight-footer">
+                <div className="price-section">
+                  <span className="price-label">Mulai dari</span>
+                  <span className="price-value">Rp {flight.price.toLocaleString('id-ID')}</span>
+                  <span className="price-per">/orang</span>
+                </div>
+                <button
+                  onClick={() => setSelectedFlight(flight.id)}
+                  className="select-btn"
+                >
+                  {selectedFlight === flight.id ? 'Terpilih' : 'Pilih Penerbangan'}
+                  <ArrowRight size={18} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-  
+    </div>
   );
 }

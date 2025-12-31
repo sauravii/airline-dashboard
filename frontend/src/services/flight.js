@@ -1,20 +1,39 @@
 import { apiFetch } from './api'
 
-export function getAllFlights({ token }) {
-  return apiFetch('/api/flight', { token })
+export function getAllFlights() {
+  return apiFetch('/api/flight')
 }
 
-export function createFlight({ token, origin, destination, departureTime, aircraftId }) {
+export function getFlightById(flightId) {
+  return apiFetch(`/api/flight/${flightId}`)
+}
+
+export function createFlight({ origin, destination, departureTime, aircraftId }) {
   return apiFetch('/api/flight', {
-    token,
     method: 'POST',
-    body: JSON.stringify({ origin, destination, departureTime, aircraftId }),
+    body: JSON.stringify({
+      origin,
+      destination,
+      departureTime,
+      aircraftId,
+    }),
   })
 }
 
-export function deleteFlight({ token, flightId }) {
+export function updateFlight(flightId, { origin, destination, departureTime, aircraftId }) {
   return apiFetch(`/api/flight/${flightId}`, {
-    token,
+    method: 'PUT',
+    body: JSON.stringify({
+      origin,
+      destination,
+      departureTime,
+      aircraftId,
+    }),
+  })
+}
+
+export function deleteFlight(flightId) {
+  return apiFetch(`/api/flight/${flightId}`, {
     method: 'DELETE',
   })
 }

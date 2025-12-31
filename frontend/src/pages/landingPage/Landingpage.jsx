@@ -1,15 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { initThreeBackground } from '../../3D_Asset/earth';
-import logoImage from '../../assets/logoputih_Images/logoputih_ImgID3.png'; // ⬅️ IMPORT LOGO
+import logoImage from '../../assets/logoputih_Images/logoputih_ImgID3.png';
+import { getToken } from '../../services/api';
 
 const AvarianeLanding = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [earthScale, setEarthScale] = useState(2.5);
-  const [airplaneScale, setAirplaneScale] = useState(0.03);
+  const [earthScale] = useState(2.5);
+  const [airplaneScale] = useState(0.03);
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
 
   const containerRef = useRef(null);
   const controlsRef = useRef(null);
+  const navigate = useNavigate();
+
+  // Check if user is logged in
+  const isLoggedIn = !!getToken();
 
   // Initialize Three.js
   useEffect(() => {
@@ -22,7 +28,7 @@ const AvarianeLanding = () => {
         earth: earthScale,
         cutHalf: true,
         airplane: airplaneScale,
-        earthPositionY: -0.5  // ⬅️ GESER EARTH KE BAWAH
+        earthPositionY: -0.5
       }
     );
 
@@ -46,6 +52,23 @@ const AvarianeLanding = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Navigation handlers
+  const handleStartNow = () => {
+    navigate('/search');
+  };
+
+  const handleAdminClick = () => {
+    if (isLoggedIn) {
+      navigate('/admin/dashboard');
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const handleLogoClick = () => {
+    navigate('/landing');
+  };
 
   const styles = {
     container: {
@@ -75,9 +98,9 @@ const AvarianeLanding = () => {
       gap: '0.5rem',
     },
     logo: {
-      height: '40px',  // ⬅️ FIX: TAMBAHIN HEIGHT
-      width: 'auto',   // ⬅️ AUTO WIDTH BIAR PROPORSI BAGUS
-      objectFit: 'contain',  // ⬅️ BIAR GAK PECAH
+      height: '40px',
+      width: 'auto',
+      objectFit: 'contain',
       cursor: 'pointer',
     },
     brandName: {
@@ -106,7 +129,7 @@ const AvarianeLanding = () => {
       border: 'none',
       cursor: 'pointer',
       fontWeight: '600',
-      transition: 'background 0.3s',
+      transition: 'all 0.3s',
       fontSize: '1rem',
     },
     menuButton: {
@@ -257,9 +280,10 @@ const AvarianeLanding = () => {
         <div style={styles.navContainer}>
           <div style={styles.logoSection}>
             <img
-              src={logoImage}  // ⬅️ PAKE IMPORT
+              src={logoImage}
               alt='Komodo Air Logo'
               style={styles.logo}
+              onClick={handleLogoClick}
             />
           </div>
 
@@ -273,8 +297,11 @@ const AvarianeLanding = () => {
 
           <button
             style={{ ...styles.bookButton, display: isMobile ? 'none' : 'block' }}
+            onClick={handleAdminClick}
+            onMouseEnter={(e) => e.target.style.background = '#16a34a'}
+            onMouseLeave={(e) => e.target.style.background = '#22c55e'}
           >
-            Book Now
+            {isLoggedIn ? 'Dashboard' : 'Admin'}
           </button>
 
           <button
@@ -292,8 +319,11 @@ const AvarianeLanding = () => {
             <a href="#" style={styles.mobileLink}>Tour Plan</a>
             <a href="#" style={styles.mobileLink}>About Us</a>
             <a href="#" style={styles.mobileLink}>Contact</a>
-            <button style={{ ...styles.bookButton, width: '100%', marginTop: '0.5rem' }}>
-              Book Now
+            <button 
+              style={{ ...styles.bookButton, width: '100%', marginTop: '0.5rem' }}
+              onClick={handleAdminClick}
+            >
+              {isLoggedIn ? 'Dashboard' : 'Admin'}
             </button>
           </div>
         )}
@@ -320,6 +350,7 @@ const AvarianeLanding = () => {
             <p style={styles.heroText}>Jelajahi Dunia Bersama Kami</p>
             <button
               style={styles.startButton}
+              onClick={handleStartNow}
               onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
               onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
             >
