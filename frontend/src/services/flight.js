@@ -8,6 +8,17 @@ export function getFlightById(flightId) {
   return apiFetch(`/api/flight/${flightId}`)
 }
 
+export function searchFlights({ origin, destination, departureDate }) {
+  const params = new URLSearchParams({
+    origin,
+    destination,
+    departureDate,
+  })
+
+  return apiFetch(`/api/flight/search?${params.toString()}`)
+}
+
+
 export function createFlight({ origin, destination, departureTime, aircraftId }) {
   return apiFetch('/api/flight', {
     method: 'POST',

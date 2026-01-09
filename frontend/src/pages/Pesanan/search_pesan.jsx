@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plane, Menu, Calendar, Clock, ArrowRight } from 'lucide-react';
-import './KomodoAir.css';
+import './searchStyle.css';
 
 export default function KomodoAirList() {
   const [selectedFlight, setSelectedFlight] = useState(null);
@@ -9,17 +9,17 @@ export default function KomodoAirList() {
     {
       id: 'KA128',
       departure: { time: '10:00', date: 'Rabu, Des 17', location: 'CGK', city: 'Jakarta' },
-      arrival: { time: '10:50', location: 'KOE', city: 'Kupang' },
+      arrival: {  location: 'KOE', city: 'Kupang' },
       aircraft: 'Airbus A320neo',
-      duration: '50m',
+      
       price: 950000
     },
     {
       id: 'KA130',
       departure: { time: '17:00', date: 'Rabu, Des 17', location: 'CGK', city: 'Jakarta' },
-      arrival: { time: '17:50', location: 'KOE', city: 'Kupang' },
+      arrival: {  location: 'KOE', city: 'Kupang' },
       aircraft: 'Airbus A320neo',
-      duration: '50m',
+      
       price: 950000
     }
   ];

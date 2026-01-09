@@ -10,9 +10,11 @@ import TestScene from './pages/asset/test.jsx'
 import FlightSearchBox from './pages/Pesanan/pesan.jsx'
 import KomodoAirList from './pages/Pesanan/search_pesan.jsx'
 import LandingPage from './pages/landingPage/Landingpage.jsx'
-
+import PassengerDetails from './pages/detail_pesan/detail_pesan.jsx'
+import  Ticket  from './pages/ticket/ticket.jsx'
 import { getToken } from './services/api.js'
 import './App.css'
+
 
 // ========== PROTECTED ROUTE ==========
 function ProtectedRoute({ children }) {
@@ -42,8 +44,8 @@ export default function App() {
 
       {/* ===== PUBLIC (WITH HEADER) ===== */}
       <Route path='/' element={<LayoutWithHeader />}>
-        <Route path="search" element={<FlightSearchBox />} />
-        <Route path="list" element={<KomodoAirList />} />
+        
+        
       </Route>
 
       {/* ===== ADMIN (PROTECTED) ===== */}
@@ -66,6 +68,10 @@ export default function App() {
       <Route path='' element={<LayoutWithoutHeader />}>
         <Route index element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="detail" element={<PassengerDetails/>} />
+        <Route path="ticket" element={<Ticket/>} />
+        <Route path="search" element={<FlightSearchBox />} />
+        <Route path="list" element={<KomodoAirList />} />
       </Route>
 
       {/* ===== 404 ===== */}

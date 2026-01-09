@@ -2,6 +2,8 @@ package com.airline.dashboard.flight.dto;
 
 import java.time.LocalDateTime;
 
+import com.airline.dashboard.flight.Flight;
+
 public class FlightResponse {
 
     private Long flightId;
@@ -16,6 +18,18 @@ public class FlightResponse {
         this.destination = destination;
         this.departureTime = departureTime;
         this.aircraftId = aircraftId;
+    }
+
+    public static FlightResponse from(Flight flight) {
+        return new FlightResponse(
+            flight.getFlightId(),
+            flight.getOrigin(),
+            flight.getDestination(),
+            flight.getDepartureTime(),
+            flight.getAircraft() != null
+                ? flight.getAircraft().getAircraftId()
+                : null
+        );
     }
 
     public Long getFlightId() {

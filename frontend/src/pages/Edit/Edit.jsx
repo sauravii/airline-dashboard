@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getFlightById, updateFlight } from '../../services/flight'
+import { Plane, Calendar, Clock, MapPin, ArrowRight, Save, X, Loader } from 'lucide-react'
 import './Edit.css'
 
 export default function EditFlight() {
@@ -9,6 +10,7 @@ export default function EditFlight() {
 
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [errors, setErrors] = useState({})
 
   const [form, setForm] = useState({
     origin: '',
@@ -48,9 +50,29 @@ export default function EditFlight() {
   }, [flight])
 
   // ======================
+  // VALIDATION
+  // ======================
+  const validateForm = () => {
+    const newErrors = {}
+
+    if (!form.origin.trim()) newErrors.origin = 'Origin harus diisi'
+    if (!form.destination.trim()) newErrors.destination = 'Destination harus diisi'
+    if (!form.date) newErrors.date = 'Tanggal harus diisi'
+    if (!form.time) newErrors.time = 'Waktu harus diisi'
+    if (!form.aircraftId) newErrors.aircraftId = 'Aircraft ID harus diisi'
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  // ======================
   // UPDATE
   // ======================
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (!validateForm()) return
+
     setSaving(true)
     try {
       await updateFlight(flight, {
@@ -70,47 +92,194 @@ export default function EditFlight() {
     }
   }
 
-  if (loading) return <p>Loading...</p>
+  const handleCancel = () => {
+    if (window.confirm('Batalkan perubahan?')) {
+      navigate('/admin')
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="edit-flight-loading">
+        <Loader className="spinner" />
+        <p>Memuat data penerbangan...</p>
+      </div>
+    )
+  }
 
   return (
-    <div className="add-flight-container">
-      <h1>Edit Flight #{flight}</h1>
+    <div className="edit-flight-page">
+      <div className="edit-flight-container">
+        {/* Header */}
+        <div className="edit-header">
+          <div className="edit-header-content">
+            <div className="edit-icon-wrapper">
+              <Plane className="edit-icon" />
+            </div>
+            <div>
+              <h1>Edit Penerbangan</h1>
+              <p className="edit-subtitle">Flight ID: #{flight}</p>
+            </div>
+          </div>
+          <button onClick={handleCancel} className="close-btn" title="Tutup">
+            <X />
+          </button>
+        </div>
 
-      <div className="form-container">
-        <input
-          value={form.origin}
-          onChange={e => setForm({ ...form, origin: e.target.value })}
-          placeholder="Origin (CGK)"
-        />
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="edit-form">
+          {/* Route Section */}
+          <div className="form-section">
+            <h2 className="section-title">
+              <MapPin size={20} />
+              Rute Penerbangan
+            </h2>
+            
+            <div className="route-inputs">
+              <div className="form-group">
+                <label htmlFor="origin">Bandara Keberangkatan</label>
+                <div className="input-wrapper">
+                  <input
+                    id="origin"
+                    type="text"
+                    value={form.origin}
+                    onChange={e => {
+                      setForm({ ...form, origin: e.target.value.toUpperCase() })
+                      setErrors({ ...errors, origin: '' })
+                    }}
+                    placeholder="CGK"
+                    className={errors.origin ? 'error' : ''}
+                    maxLength={3}
+                  />
+                  <span className="input-hint">Kode IATA (3 huruf)</span>
+                </div>
+                {errors.origin && <span className="error-message">{errors.origin}</span>}
+              </div>
 
-        <input
-          value={form.destination}
-          onChange={e => setForm({ ...form, destination: e.target.value })}
-          placeholder="Destination (DPS)"
-        />
+              <div className="route-arrow">
+                <ArrowRight />
+              </div>
 
-        <input
-          type="date"
-          value={form.date}
-          onChange={e => setForm({ ...form, date: e.target.value })}
-        />
+              <div className="form-group">
+                <label htmlFor="destination">Bandara Tujuan</label>
+                <div className="input-wrapper">
+                  <input
+                    id="destination"
+                    type="text"
+                    value={form.destination}
+                    onChange={e => {
+                      setForm({ ...form, destination: e.target.value.toUpperCase() })
+                      setErrors({ ...errors, destination: '' })
+                    }}
+                    placeholder="DPS"
+                    className={errors.destination ? 'error' : ''}
+                    maxLength={3}
+                  />
+                  <span className="input-hint">Kode IATA (3 huruf)</span>
+                </div>
+                {errors.destination && <span className="error-message">{errors.destination}</span>}
+              </div>
+            </div>
+          </div>
 
-        <input
-          type="time"
-          value={form.time}
-          onChange={e => setForm({ ...form, time: e.target.value })}
-        />
+          {/* Schedule Section */}
+          <div className="form-section">
+            <h2 className="section-title">
+              <Calendar size={20} />
+              Jadwal Keberangkatan
+            </h2>
+            
+            <div className="schedule-inputs">
+              <div className="form-group">
+                <label htmlFor="date">Tanggal</label>
+                <input
+                  id="date"
+                  type="date"
+                  value={form.date}
+                  onChange={e => {
+                    setForm({ ...form, date: e.target.value })
+                    setErrors({ ...errors, date: '' })
+                  }}
+                  className={errors.date ? 'error' : ''}
+                />
+                {errors.date && <span className="error-message">{errors.date}</span>}
+              </div>
 
-        <input
-          type="number"
-          value={form.aircraftId}
-          onChange={e => setForm({ ...form, aircraftId: e.target.value })}
-          placeholder="Aircraft ID"
-        />
+              <div className="form-group">
+                <label htmlFor="time">Waktu</label>
+                <div className="input-with-icon">
+                  <Clock size={18} />
+                  <input
+                    id="time"
+                    type="time"
+                    value={form.time}
+                    onChange={e => {
+                      setForm({ ...form, time: e.target.value })
+                      setErrors({ ...errors, time: '' })
+                    }}
+                    className={errors.time ? 'error' : ''}
+                  />
+                </div>
+                {errors.time && <span className="error-message">{errors.time}</span>}
+              </div>
+            </div>
+          </div>
 
-        <button onClick={handleSubmit} disabled={saving}>
-          {saving ? 'Saving...' : 'Update Flight'}
-        </button>
+          {/* Aircraft Section */}
+          <div className="form-section">
+            <h2 className="section-title">
+              <Plane size={20} />
+              Pesawat
+            </h2>
+            
+            <div className="form-group">
+              <label htmlFor="aircraftId">Aircraft ID</label>
+              <input
+                id="aircraftId"
+                type="number"
+                value={form.aircraftId}
+                onChange={e => {
+                  setForm({ ...form, aircraftId: e.target.value })
+                  setErrors({ ...errors, aircraftId: '' })
+                }}
+                placeholder="Masukkan ID pesawat"
+                className={errors.aircraftId ? 'error' : ''}
+                min="1"
+              />
+              {errors.aircraftId && <span className="error-message">{errors.aircraftId}</span>}
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="form-actions">
+            <button 
+              type="button" 
+              onClick={handleCancel} 
+              className="btn-cancel"
+              disabled={saving}
+            >
+              <X size={18} />
+              Batal
+            </button>
+            <button 
+              type="submit" 
+              className="btn-save"
+              disabled={saving}
+            >
+              {saving ? (
+                <>
+                  <Loader className="spinner-small" />
+                  Menyimpan...
+                </>
+              ) : (
+                <>
+                  <Save size={18} />
+                  Simpan Perubahan
+                </>
+              )}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   )

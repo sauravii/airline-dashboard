@@ -15,9 +15,11 @@ export function initThreeBackground(container, lightingConfig = {}, scaleConfig 
   earth: scaleConfig.earth || 1,
   airplane: scaleConfig.airplane || 0.02,
   cutHalf: scaleConfig.cutHalf !== undefined ? scaleConfig.cutHalf : true,
-  earthPositionY: scaleConfig.earthPositionY || -0.5,  // ⬅️ TAMBAHIN INI
+  earthPositionX: scaleConfig.earthPositionX || -1000, // 👈 GESER KE KIRI
+  earthPositionY: scaleConfig.earthPositionY || -0.5,
   ...scaleConfig
 }
+
 
 
   const textureLoader = new THREE.TextureLoader()

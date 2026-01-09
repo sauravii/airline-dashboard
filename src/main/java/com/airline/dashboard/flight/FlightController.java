@@ -1,5 +1,6 @@
 package com.airline.dashboard.flight;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +29,16 @@ public class FlightController {
     public FlightController(FlightService flightService) {
         this.flightService = flightService;
     }
+    
+    @GetMapping("/search")
+public List<FlightResponse> searchFlights(
+    @RequestParam String origin,
+    @RequestParam String destination,
+    @RequestParam LocalDate departureDate
+) {
+    return flightService.search(origin, destination, departureDate);
+}
+
 
     @GetMapping
     public List<FlightResponse> getAll() {

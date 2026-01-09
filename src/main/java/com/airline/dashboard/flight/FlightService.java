@@ -1,5 +1,7 @@
 package com.airline.dashboard.flight;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,25 @@ public class FlightService {
         this.flightRepository = flightRepository;
         this.aircraftRepository = aircraftRepository;
     }
+
+    public List<FlightResponse> search(
+    String origin,
+    String destination,
+    LocalDate departureDate
+) {
+    LocalDateTime start = departureDate.atStartOfDay();
+    LocalDateTime end = departureDate.atTime(23, 59, 59);
+
+    return flightRepository
+        .findByOriginAndDestinationAndDepartureTimeBetween(
+            origin, destination, start, end
+        )
+        .stream()
+        .map(FlightResponse::from)
+        .toList();
+}
+
+
 
     public List<FlightResponse> getAll() {
         return flightRepository.findAll().stream()
