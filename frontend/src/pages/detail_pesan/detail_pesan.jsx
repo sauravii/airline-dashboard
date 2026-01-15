@@ -1,312 +1,313 @@
-import React, { useState } from 'react';
-import { User, Mail, Phone, Calendar, MapPin, CreditCard, AlertCircle, ChevronRight, Check } from 'lucide-react';
-import './detail_pesan.css';
-import Logo from '../../assets/Logo.svg'
+import { useState, useEffect } from "react"
+import { useParams, useNavigate, useLocation } from "react-router-dom"
+import { AlertCircle, ChevronRight, Check, MapPin } from "lucide-react"
+import "./detail_pesan.css"
+import Logo from "../../assets/Logo.svg"
+import { getFlightById } from "../../services/flight"
 
 export default function PassengerDetails() {
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  // 🔑 pax dari page sebelumnya
+  const pax = Number(location.state?.pax) || 1
+
+  /* =====================
+     PRICE CONFIG
+  ====================== */
+  const PRICE_DEWASA = 950000
+  const PRICE_ANAK = 700000
+
+  /* =====================
+     FLIGHT STATE
+  ====================== */
+  const [flight, setFlight] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+
+  /* =====================
+     CONTACT STATE
+  ====================== */
   const [contactInfo, setContactInfo] = useState({
-    gender: 'Tuan',
-    firstName: '',
-    lastName: '',
-    phone: '+62',
-    email: ''
-  });
+    firstName: "",
+    lastName: "",
+    phone: "+62",
+    email: ""
+  })
 
-  const [passengers, setPassengers] = useState([
-    {
-      id: 1,
-      title: 'Dewasa 1',
-      gender: 'Tuan',
-      firstName: '',
-      lastName: '',
-      dateOfBirth: '',
-      nationality: 'Indonesia',
-      identityType: 'KTP/Nik/Paspor',
-      identityNumber: ''
-    }
-  ]);
+  /* =====================
+     PASSENGERS STATE
+     ⚠️ JANGAN init pakai pax di sini
+  ====================== */
+  const [passengers, setPassengers] = useState([])
 
+  /* =====================
+     SYNC PASSENGERS WITH PAX
+     🔥 FIX UTAMA
+  ====================== */
+  useEffect(() => {
+    setPassengers(
+      Array.from({ length: pax }, (_, i) => ({
+        id: i + 1,
+        title: "Dewasa", // Dewasa / Anak
+        firstName: "",
+        lastName: "",
+        identityNumber: ""
+      }))
+    )
+  }, [pax])
+
+  /* =====================
+     FETCH FLIGHT
+  ====================== */
+  useEffect(() => {
+    setLoading(true)
+    setError("")
+
+    getFlightById(id)
+      .then(setFlight)
+      .catch(() => setError("Gagal memuat data penerbangan"))
+      .finally(() => setLoading(false))
+  }, [id])
+
+  /* =====================
+     HANDLERS
+  ====================== */
   const handleContactChange = (field, value) => {
-    setContactInfo({ ...contactInfo, [field]: value });
-  };
+    setContactInfo(prev => ({ ...prev, [field]: value }))
+  }
 
-  const handlePassengerChange = (id, field, value) => {
-    setPassengers(passengers.map(p => 
-      p.id === id ? { ...p, [field]: value } : p
-    ));
-  };
+  const handlePassengerChange = (pid, field, value) => {
+    setPassengers(prev =>
+      prev.map(p =>
+        p.id === pid ? { ...p, [field]: value } : p
+      )
+    )
+  }
 
+  /* =====================
+     PRICE CALC
+  ====================== */
+  const totalPrice = passengers.reduce((sum, p) => {
+    return sum + (p.title === "Dewasa" ? PRICE_DEWASA : PRICE_ANAK)
+  }, 0)
+
+  /* =====================
+     SUBMIT
+  ====================== */
   const handleSubmit = () => {
-    console.log('Contact:', contactInfo);
-    console.log('Passengers:', passengers);
-    // Navigate to payment page
-  };
+    navigate(`/ticket/${flight.flightId}`, {
+      state: {
+        flight,
+        passengers,
+        contactInfo,
+        totalPrice
+      }
+    })
+  }
 
+  /* =====================
+     LOADING / ERROR
+  ====================== */
+  if (loading) {
+    return <div className="loading">Memuat data penerbangan...</div>
+  }
+
+  if (error || !flight) {
+    return (
+      <div className="error-popup">
+        <AlertCircle size={20} />
+        <span>{error}</span>
+        <button onClick={() => navigate(-1)}>Kembali</button>
+      </div>
+    )
+  }
+
+  /* =====================
+     RENDER
+  ====================== */
   return (
     <div className="passenger-container">
       <div className="passenger-wrapper">
-        {/* Header */}
+
+        {/* HEADER */}
         <div className="passenger-header">
-          <div className="logo-section">
-            <img src={Logo} alt='' className="logo-icon"></img>
-          </div>
-          
+          <img src={Logo} alt="Logo" className="logo-icon" />
+
           <div className="step-indicator">
             <div className="step">
               <div className="step-circle active">
                 <Check size={16} />
               </div>
-              <span className="step-label">Pilih Penerbangan</span>
+              <span>Pilih Penerbangan</span>
             </div>
             <div className="step-line"></div>
             <div className="step">
               <div className="step-circle active">2</div>
-              <span className="step-label">Detail Penumpang</span>
+              <span>Detail Penumpang</span>
             </div>
             <div className="step-line"></div>
             <div className="step">
               <div className="step-circle">3</div>
-              <span className="step-label">Pembayaran</span>
+              <span>Tiket</span>
             </div>
           </div>
         </div>
 
         <div className="passenger-content">
-          {/* Left Side - Forms */}
+
+          {/* LEFT – FORM */}
           <div className="forms-section">
-            {/* Contact Details Card */}
+
+            {/* CONTACT */}
             <div className="detail-card">
-              <div className="card-header">
-                <div className="header-icon contact-icon">
-                  <Mail size={24} />
-                </div>
-                <div className="header-text">
-                  <h2 className="card-title">Kontak</h2>
-                  <p className="card-subtitle">Detail Kontak untuk E-Tiket</p>
-                </div>
-              </div>
+              <h2>Kontak</h2>
 
-              <div className="alert-box">
-                <AlertCircle size={18} />
-                <p>Isiikan kami memberikan link Anda tentang panduan (Buku) penerbangan. Penumpang pertama akan menjadi link kontak utama untuk perubahan (A).</p>
-              </div>
-
-              <div className="form-section">
-                <div className="form-group full-width">
-                  <label className="form-label">Gelar</label>
-                  <div className="radio-group">
-                    {['Tuan', 'Nyonya', 'Nona'].map(option => (
-                      <label key={option} className="radio-option">
-                        <input
-                          type="radio"
-                          name="contact-gender"
-                          value={option}
-                          checked={contactInfo.gender === option}
-                          onChange={(e) => handleContactChange('gender', e.target.value)}
-                        />
-                        <span className="radio-label">{option}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="form-grid">
-                  <div className="form-group">
-                    <label className="form-label">Nama Depan (dan Nama Tengah)</label>
-                    <input
-                      type="text"
-                      placeholder="Nama Depan"
-                      value={contactInfo.firstName}
-                      onChange={(e) => handleContactChange('firstName', e.target.value)}
-                      className="form-input"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Nama Belakang</label>
-                    <input
-                      type="text"
-                      placeholder="Nama Belakang"
-                      value={contactInfo.lastName}
-                      onChange={(e) => handleContactChange('lastName', e.target.value)}
-                      className="form-input"
-                    />
-                  </div>
-                </div>
-
-                <div className="form-grid">
-                  <div className="form-group">
-                    <label className="form-label">Nomor Telepon</label>
-                    <div className="phone-input-wrapper">
-                      <select className="phone-code">
-                        <option>🇮🇩 +62</option>
-                      </select>
-                      <input
-                        type="tel"
-                        placeholder="812 3456 7890"
-                        value={contactInfo.phone.replace('+62', '')}
-                        onChange={(e) => handleContactChange('phone', '+62' + e.target.value)}
-                        className="phone-input"
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Alamat Email</label>
-                    <input
-                      type="email"
-                      placeholder="email@example.com"
-                      value={contactInfo.email}
-                      onChange={(e) => handleContactChange('email', e.target.value)}
-                      className="form-input"
-                    />
-                  </div>
-                </div>
-              </div>
+              <input
+                placeholder="Nama Depan"
+                value={contactInfo.firstName}
+                onChange={(e) =>
+                  handleContactChange("firstName", e.target.value)
+                }
+              />
+              <input
+                placeholder="Nama Belakang"
+                value={contactInfo.lastName}
+                onChange={(e) =>
+                  handleContactChange("lastName", e.target.value)
+                }
+              />
+              <input
+                placeholder="Nomor Telepon"
+                value={contactInfo.phone}
+                onChange={(e) =>
+                  handleContactChange("phone", e.target.value)
+                }
+              />
+              <input
+                placeholder="Email"
+                value={contactInfo.email}
+                onChange={(e) =>
+                  handleContactChange("email", e.target.value)
+                }
+              />
             </div>
 
-            {/* Passenger Details Cards */}
-            {passengers.map((passenger) => (
-              <div key={passenger.id} className="detail-card">
-                <div className="card-header">
-                  <div className="header-icon passenger-icon">
-                    <User size={24} />
-                  </div>
-                  <div className="header-text">
-                    <h2 className="card-title">Detail Penumpang</h2>
-                    <p className="card-subtitle">{passenger.title}</p>
-                  </div>
+            {/* PASSENGERS */}
+            {passengers.map(p => (
+              <div key={p.id} className="detail-card">
+                <h2>Penumpang {p.id}</h2>
+
+                {/* Dewasa / Anak */}
+                <div className="radio-group">
+                  {["Dewasa", "Anak"].map(opt => (
+                    <label key={opt}>
+                      <input
+                        type="radio"
+                        name={`title-${p.id}`}
+                        value={opt}
+                        checked={p.title === opt}
+                        onChange={(e) =>
+                          handlePassengerChange(
+                            p.id,
+                            "title",
+                            e.target.value
+                          )
+                        }
+                      />
+                      {opt}
+                    </label>
+                  ))}
                 </div>
 
-                <div className="alert-box">
-                  <AlertCircle size={18} />
-                  <p>Nama penumpang Harus sama dengan KTP atau Paspor</p>
-                </div>
-
-                <div className="form-section">
-                  <div className="form-group full-width">
-                    <label className="form-label">Gelar</label>
-                    <div className="radio-group">
-                      {['Tuan', 'Nyonya', 'Nona'].map(option => (
-                        <label key={option} className="radio-option">
-                          <input
-                            type="radio"
-                            name={`passenger-${passenger.id}-gender`}
-                            value={option}
-                            checked={passenger.gender === option}
-                            onChange={(e) => handlePassengerChange(passenger.id, 'gender', e.target.value)}
-                          />
-                          <span className="radio-label">{option}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="form-grid">
-                    <div className="form-group">
-                      <label className="form-label">Nama Depan (dan Nama Tengah)</label>
-                      <input
-                        type="text"
-                        placeholder="Nama Depan"
-                        value={passenger.firstName}
-                        onChange={(e) => handlePassengerChange(passenger.id, 'firstName', e.target.value)}
-                        className="form-input"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Nama Belakang</label>
-                      <input
-                        type="text"
-                        placeholder="Nama Belakang"
-                        value={passenger.lastName}
-                        onChange={(e) => handlePassengerChange(passenger.id, 'lastName', e.target.value)}
-                        className="form-input"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-grid">
-                    <div className="form-group">
-                      <label className="form-label">Tanggal Lahir</label>
-                      <input
-                        type="date"
-                        value={passenger.dateOfBirth}
-                        onChange={(e) => handlePassengerChange(passenger.id, 'dateOfBirth', e.target.value)}
-                        className="form-input"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">e-Mel / Member</label>
-                      <input
-                        type="text"
-                        placeholder="Email atau Nomor Member"
-                        onChange={(e) => handlePassengerChange(passenger.id, 'member', e.target.value)}
-                        className="form-input"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group full-width">
-                    <label className="form-label">Identitas</label>
-                    <select 
-                      value={passenger.identityType}
-                      onChange={(e) => handlePassengerChange(passenger.id, 'identityType', e.target.value)}
-                      className="form-select"
-                    >
-                      <option>KTP/Nik/Paspor</option>
-                      <option>Paspor</option>
-                      <option>KTP</option>
-                    </select>
-                  </div>
-
-                  <div className="form-group full-width">
-                    <label className="form-label">Nomor Identitas</label>
-                    <input
-                      type="text"
-                      placeholder="Nomor Identitas"
-                      value={passenger.identityNumber}
-                      onChange={(e) => handlePassengerChange(passenger.id, 'identityNumber', e.target.value)}
-                      className="form-input"
-                    />
-                  </div>
-                </div>
+                <input
+                  placeholder="Nama Depan"
+                  value={p.firstName}
+                  onChange={(e) =>
+                    handlePassengerChange(
+                      p.id,
+                      "firstName",
+                      e.target.value
+                    )
+                  }
+                />
+                <input
+                  placeholder="Nama Belakang"
+                  value={p.lastName}
+                  onChange={(e) =>
+                    handlePassengerChange(
+                      p.id,
+                      "lastName",
+                      e.target.value
+                    )
+                  }
+                />
+                <input
+                  placeholder="Nomor Identitas"
+                  value={p.identityNumber}
+                  onChange={(e) =>
+                    handlePassengerChange(
+                      p.id,
+                      "identityNumber",
+                      e.target.value
+                    )
+                  }
+                />
               </div>
             ))}
           </div>
 
-          {/* Right Side - Summary */}
+          {/* RIGHT – SUMMARY */}
           <div className="summary-section">
             <div className="summary-card">
-              <h3 className="summary-title">Ringkasan</h3>
-              
+              <h3>Ringkasan</h3>
+
               <div className="flight-info-box">
-                <div className="flight-route-info">
-                  <MapPin size={18} className="route-icon" />
-                  <div>
-                    <p className="route-text">Kupang, NTT → Jakarta</p>
-                    <p className="route-detail">(Soekarno Hatta)</p>
-                  </div>
+                <MapPin size={18} />
+                <div>
+                  <p>{flight.origin} → {flight.destination}</p>
+                  <p>
+                    {new Date(flight.departureTime)
+                      .toLocaleString("id-ID")}
+                  </p>
                 </div>
               </div>
 
               <div className="price-breakdown">
                 <div className="price-row">
-                  <span className="price-label">Subtotal (1 Penumpang)</span>
-                  <span className="price-amount">Rp 950.000</span>
+                  <span>Dewasa</span>
+                  <span>
+                    Rp {(passengers.filter(p => p.title === "Dewasa").length
+                      * PRICE_DEWASA).toLocaleString("id-ID")}
+                  </span>
                 </div>
-                <div className="price-divider"></div>
+
+                <div className="price-row">
+                  <span>Anak</span>
+                  <span>
+                    Rp {(passengers.filter(p => p.title === "Anak").length
+                      * PRICE_ANAK).toLocaleString("id-ID")}
+                  </span>
+                </div>
+
                 <div className="price-row total">
-                  <span className="total-label">Total Biaya</span>
-                  <span className="total-amount">Rp 950.000</span>
+                  <strong>Total</strong>
+                  <strong>
+                    Rp {totalPrice.toLocaleString("id-ID")}
+                  </strong>
                 </div>
               </div>
 
               <button onClick={handleSubmit} className="continue-button">
                 Lanjut
-                <ChevronRight size={20} />
+                <ChevronRight size={18} />
               </button>
             </div>
           </div>
+
         </div>
       </div>
     </div>
-  );
+  )
 }

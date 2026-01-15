@@ -31,13 +31,13 @@ public class FlightController {
     }
     
     @GetMapping("/search")
-public List<FlightResponse> searchFlights(
-    @RequestParam String origin,
-    @RequestParam String destination,
-    @RequestParam LocalDate departureDate
-) {
-    return flightService.search(origin, destination, departureDate);
-}
+    public List<FlightResponse> searchFlights(
+        @RequestParam String origin,
+        @RequestParam String destination,
+        @RequestParam LocalDate departureDate
+    ) {
+        return flightService.search(origin, destination, departureDate);
+    }
 
 
     @GetMapping

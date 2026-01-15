@@ -1,9 +1,20 @@
-/* Page Container */
+/* =====================
+   GLOBAL RESET
+====================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =====================
+   PAGE CONTAINER
+====================== */
 .print-ticket-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 2rem 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 .print-ticket-wrapper {
@@ -11,13 +22,15 @@
   margin: 0 auto;
 }
 
-/* Action Bar */
+/* =====================
+   ACTION BAR
+====================== */
 .action-bar {
   background: white;
-  border-radius: 20px;
-  padding: 24px 32px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .action-header {
@@ -25,24 +38,21 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 1.5rem;
 }
 
 .action-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-
-.action-logo-icon {
-  font-size: 36px;
+  gap: 0.75rem;
+  font-size: 1.5rem;
 }
 
 .action-logo h1 {
-  font-size: 26px;
+  font-size: 1.5rem;
   font-weight: 700;
-  margin: 0;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #1e293b;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -50,548 +60,346 @@
 
 .action-buttons {
   display: flex;
-  gap: 12px;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
-.action-btn {
+.action-buttons button {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.email-btn {
-  background: #f3f4f6;
-  color: #374151;
-}
-
-.email-btn:hover {
-  background: #e5e7eb;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.download-btn {
-  background: #dbeafe;
-  color: #1e40af;
-}
-
-.download-btn:hover {
-  background: #bfdbfe;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
-
-.print-btn {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-}
-
-.print-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
-}
-
-/* Success Banner */
-.success-banner {
-  background: linear-gradient(135deg, #10b981, #059669);
-  border-radius: 20px;
-  padding: 28px 32px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
-}
-
-.success-icon {
-  width: 64px;
-  height: 64px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  flex-shrink: 0;
-}
-
-.success-text h2 {
-  font-size: 24px;
-  font-weight: 700;
-  color: white;
-  margin: 0 0 8px 0;
-}
-
-.success-text p {
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0;
-  line-height: 1.5;
-}
-
-/* Ticket Card */
-.ticket-card {
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: 2px solid #e2e8f0;
   background: white;
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
 }
 
-/* Ticket Header */
+.action-buttons button:hover {
+  border-color: #667eea;
+  color: #667eea;
+  background: #667eea05;
+  transform: translateY(-2px);
+}
+
+.action-buttons button:active {
+  transform: translateY(0);
+}
+
+/* =====================
+   TICKET CONTAINER
+====================== */
+.ticket-container {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+/* =====================
+   SUCCESS BANNER
+====================== */
+.success-banner {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.success-banner h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.success-banner p {
+  font-size: 0.875rem;
+  opacity: 0.95;
+}
+
+/* =====================
+   TICKET CARD
+====================== */
+.ticket-card {
+  padding: 2.5rem;
+}
+
+/* TICKET HEADER */
 .ticket-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  padding-bottom: 32px;
-  border-bottom: 3px dashed #e5e7eb;
-  margin-bottom: 32px;
+  align-items: start;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px dashed #e2e8f0;
 }
 
-.ticket-header-left {
+.ticket-header > div:first-child {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
 }
 
-.airline-logo {
-  width: 64px;
-  height: 64px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
+.ticket-header svg {
+  color: #667eea;
 }
 
-.airline-info h3 {
-  font-size: 22px;
+.ticket-header h3 {
+  font-size: 1.5rem;
   font-weight: 700;
-  color: #111827;
-  margin: 0 0 4px 0;
-}
-
-.airline-info p {
-  font-size: 13px;
-  color: #6b7280;
-  font-weight: 600;
+  color: #1e293b;
   margin: 0;
-  letter-spacing: 0.5px;
 }
 
-.ticket-header-right {
+.ticket-header p {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.ticket-header > div:last-child {
   text-align: right;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 
-.booking-code {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.booking-label {
-  font-size: 12px;
-  color: #6b7280;
-  font-weight: 500;
+.ticket-header > div:last-child span {
+  display: block;
+  font-size: 0.75rem;
+  color: #64748b;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
 }
 
-.booking-value {
-  font-size: 24px;
+.ticket-header > div:last-child strong {
+  font-size: 1.25rem;
+  color: #1e293b;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: 2px;
 }
 
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-.status-badge.confirmed {
-  background: #d1fae5;
-  color: #065f46;
-}
-
-/* Flight Route */
+/* =====================
+   FLIGHT ROUTE
+====================== */
 .flight-route {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  gap: 32px;
-  margin-bottom: 24px;
+  gap: 2rem;
   align-items: center;
-}
-
-.route-point {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.route-point.arrival {
-  text-align: right;
-  align-items: flex-end;
-}
-
-.route-time {
-  font-size: 36px;
-  font-weight: 700;
-  color: #111827;
-  line-height: 1;
-}
-
-.route-code {
-  font-size: 28px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.route-city {
-  font-size: 16px;
-  color: #111827;
-  font-weight: 600;
-}
-
-.route-airport {
-  font-size: 13px;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.route-terminal {
-  font-size: 12px;
-  color: #9ca3af;
-  background: #f3f4f6;
-  padding: 4px 10px;
-  border-radius: 6px;
-  display: inline-block;
-  margin-top: 4px;
-}
-
-/* Route Middle */
-.route-middle {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  min-width: 200px;
-}
-
-.route-flight-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.flight-number {
-  font-size: 18px;
-  font-weight: 700;
-  color: #667eea;
-}
-
-.aircraft-type {
-  font-size: 12px;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.route-line {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.route-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #667eea;
-  border: 3px solid white;
-  box-shadow: 0 0 0 2px #667eea;
-  z-index: 1;
-}
-
-.route-path {
-  flex: 1;
-  height: 3px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
-  position: relative;
-  margin: 0 -6px;
-}
-
-.route-plane-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 24px;
-  height: 24px;
-  color: #667eea;
-  background: white;
-  padding: 4px;
-  border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
-}
-
-.route-duration {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: #6b7280;
-  font-weight: 600;
-  background: #f3f4f6;
-  padding: 6px 12px;
-  border-radius: 20px;
-}
-
-/* Flight Date */
-.flight-date {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 20px;
-  background: #f0f4ff;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
   border-radius: 12px;
-  margin-bottom: 32px;
-  color: #667eea;
-  font-weight: 600;
-  font-size: 15px;
-  border: 2px solid #dbeafe;
 }
 
-/* Ticket Section */
-.ticket-section {
-  margin-bottom: 32px;
+.flight-route > div:first-child,
+.flight-route > div:last-child {
+  text-align: center;
 }
 
-.section-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 18px;
+.flight-route strong {
+  display: block;
+  font-size: 2rem;
   font-weight: 700;
-  color: #111827;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #f3f4f6;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
 }
 
-.section-title svg {
-  color: #667eea;
+.flight-route p {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 0;
 }
 
-.detail-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-.detail-item {
+.flight-route > div:nth-child(2) {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 16px;
-  background: #f9fafb;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.detail-label {
-  font-size: 12px;
-  color: #6b7280;
+.flight-route > div:nth-child(2) svg {
+  color: #667eea;
+  transform: rotate(90deg);
+}
+
+.flight-route > div:nth-child(2) p {
+  font-size: 0.75rem;
   font-weight: 600;
+  color: #667eea;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-.detail-value {
-  font-size: 15px;
-  color: #111827;
-  font-weight: 700;
-}
-
-.seat-number {
-  font-size: 20px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Barcode Section */
-.barcode-section {
-  padding: 32px 0;
-  border-top: 3px dashed #e5e7eb;
-  border-bottom: 3px dashed #e5e7eb;
-  margin-bottom: 32px;
-}
-
-.barcode-wrapper {
+/* =====================
+   FLIGHT DATE
+====================== */
+.flight-date {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: #f8fafc;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  color: #475569;
 }
 
-.barcode-wrapper svg {
-  color: #111827;
-}
-
-.barcode-text {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 3px;
+.flight-date svg {
   color: #667eea;
 }
 
-/* Ticket Notes */
-.ticket-notes {
-  background: #fffbeb;
-  border: 2px solid #fbbf24;
-  border-radius: 12px;
-  padding: 20px 24px;
+/* =====================
+   TICKET SECTION
+====================== */
+.ticket-section {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-.ticket-notes h5 {
-  font-size: 15px;
+.ticket-section:last-of-type {
+  border-bottom: none;
+}
+
+.ticket-section h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
   font-weight: 700;
-  color: #92400e;
-  margin: 0 0 12px 0;
+  color: #1e293b;
+  margin-bottom: 1.25rem;
 }
 
-.ticket-notes ul {
-  margin: 0;
-  padding-left: 20px;
+.ticket-section h4 svg {
+  color: #667eea;
 }
 
-.ticket-notes li {
-  font-size: 13px;
-  color: #78350f;
+.ticket-section > p {
+  color: #475569;
   line-height: 1.8;
-  font-weight: 500;
+  margin: 0.5rem 0;
 }
 
-/* Price Summary */
-.price-summary-card {
-  background: white;
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+/* DETAIL GRID */
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding: 1.25rem;
+  background: #f8fafc;
+  border-radius: 10px;
+  margin-bottom: 1rem;
 }
 
-.summary-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #111827;
-  margin: 0 0 20px 0;
-  padding-bottom: 16px;
-  border-bottom: 2px solid #f3f4f6;
+.detail-grid:last-child {
+  margin-bottom: 0;
 }
 
-.summary-rows {
+.detail-grid > div span {
+  display: block;
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.detail-grid > div strong {
+  display: block;
+  font-size: 1rem;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* =====================
+   BARCODE SECTION
+====================== */
+.barcode-section {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 12px;
+  margin-top: 2rem;
+}
+
+.barcode-section svg {
+  color: #1e293b;
+  opacity: 0.8;
+}
+
+.barcode-section span {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: 2px;
+  font-family: "Courier New", monospace;
+}
+
+/* =====================
+   PRICE SUMMARY CARD
+====================== */
+.price-summary-card {
+  padding: 2rem 2.5rem;
+  background: #f8fafc;
+  border-top: 2px dashed #e2e8f0;
+}
+
+.price-summary-card h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
 }
 
 .summary-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.summary-label {
-  font-size: 14px;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.summary-value {
-  font-size: 15px;
-  color: #111827;
-  font-weight: 700;
-}
-
-.summary-divider {
-  height: 2px;
-  background: #e5e7eb;
-  margin: 8px 0;
+  padding: 0.875rem 0;
+  color: #475569;
+  font-size: 0.95rem;
 }
 
 .summary-row.total {
-  padding-top: 16px;
-  border-top: 2px solid #e5e7eb;
+  border-top: 2px solid #cbd5e1;
+  margin-top: 0.75rem;
+  padding-top: 1.25rem;
+  color: #1e293b;
+  font-size: 1.25rem;
 }
 
-.summary-total-label {
-  font-size: 16px;
-  color: #111827;
-  font-weight: 700;
-}
-
-.summary-total-value {
-  font-size: 24px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Footer */
+/* =====================
+   TICKET FOOTER
+====================== */
 .ticket-footer {
-  background: white;
-  border-radius: 20px;
-  padding: 24px;
+  padding: 1.5rem 2.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.ticket-footer p {
-  font-size: 14px;
-  color: #6b7280;
-  margin: 0 0 8px 0;
+  font-size: 0.95rem;
   font-weight: 500;
 }
 
-.footer-contact {
-  color: #667eea;
-  font-weight: 600;
-}
-
-/* Print Styles */
+/* =====================
+   PRINT STYLES
+====================== */
 @media print {
+  body {
+    background: white !important;
+  }
+
   .print-ticket-page {
     background: white;
     padding: 0;
@@ -601,22 +409,27 @@
     display: none !important;
   }
 
-  .ticket-card,
-  .price-summary-card,
-  .ticket-footer {
+  .ticket-container {
     box-shadow: none;
     page-break-inside: avoid;
   }
 
-  .ticket-container {
-    max-width: 100%;
+  .ticket-card,
+  .price-summary-card {
+    page-break-inside: avoid;
   }
 }
 
-/* Responsive */
+/* =====================
+   RESPONSIVE
+====================== */
 @media (max-width: 768px) {
   .print-ticket-page {
-    padding: 12px;
+    padding: 1rem 0.5rem;
+  }
+
+  .action-bar {
+    padding: 1rem;
   }
 
   .action-header {
@@ -628,55 +441,67 @@
     width: 100%;
   }
 
-  .action-btn {
+  .action-buttons button {
     flex: 1;
     justify-content: center;
+    min-width: 0;
   }
 
   .ticket-card {
-    padding: 24px;
+    padding: 1.5rem;
   }
 
   .ticket-header {
     flex-direction: column;
-    gap: 20px;
+    gap: 1.5rem;
   }
 
-  .ticket-header-right {
-    width: 100%;
+  .ticket-header > div:last-child {
     text-align: left;
-    align-items: flex-start;
   }
 
   .flight-route {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 1.5rem;
   }
 
-  .route-middle {
-    order: 2;
-  }
-
-  .route-point.arrival {
-    text-align: left;
-    align-items: flex-start;
-    order: 3;
-  }
-
-  .route-point.departure {
-    order: 1;
-  }
-
-  .route-line {
-    transform: rotate(90deg);
-    margin: 20px 0;
+  .flight-route > div:nth-child(2) svg {
+    transform: rotate(180deg);
   }
 
   .detail-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .price-summary-card {
-    padding: 20px;
+    padding: 1.5rem;
+  }
+
+  .ticket-footer {
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .action-logo h1 {
+    font-size: 1.25rem;
+  }
+
+  .action-buttons button {
+    font-size: 0.8rem;
+    padding: 0.65rem 1rem;
+  }
+
+  .flight-route strong {
+    font-size: 1.5rem;
+  }
+
+  .ticket-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .summary-row.total {
+    font-size: 1.125rem;
   }
 }

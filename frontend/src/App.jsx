@@ -68,8 +68,8 @@ export default function App() {
       <Route path='' element={<LayoutWithoutHeader />}>
         <Route index element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="detail" element={<PassengerDetails/>} />
-        <Route path="ticket" element={<Ticket/>} />
+        <Route path="/flight/:id" element={<PassengerDetails/>} />
+        <Route path="ticket/:id" element={<Ticket/>} />
         <Route path="search" element={<FlightSearchBox />} />
         <Route path="list" element={<KomodoAirList />} />
       </Route>

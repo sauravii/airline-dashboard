@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-import { Search, Plane, Calendar, ArrowLeftRight, AlertCircle } from "lucide-react"
+import { Search, Plane, Calendar, ArrowLeftRight, AlertCircle, Loader2 } from "lucide-react"
 import "./pesanStyle.css"
 
 import landing from "../../assets/Landing.svg"
 import takeoff from "../../assets/Frame.svg"
 import { initThreeBackground } from "../../3D_Asset/earth.js"
-import { searchFlights } from "../../services/flight"
 
 export default function SearchBox() {
   const navigate = useNavigate()
+  
   
   // Form State
   const [tripType, setTripType] = useState("oneway")
@@ -22,16 +22,16 @@ export default function SearchBox() {
   const [passengers, setPassengers] = useState(1)
   
   // UI State
-  const [loading, setLoading] = useState(false)
+  const [loading] = useState(false)
   const [errors, setErrors] = useState({})
-  const [showPassengerDropdown, setShowPassengerDropdown] = useState(false)
 
   // Three.js Refs
   const earthContainerRef = useRef(null)
   const earthInstanceRef = useRef(null)
 
-  /* 🌍 INIT EARTH */
+ 
   useEffect(() => {
+     /* 🌍 INIT EARTH */
     if (earthContainerRef.current && !earthInstanceRef.current) {
       try {
         earthInstanceRef.current = initThreeBackground(
@@ -115,47 +115,19 @@ export default function SearchBox() {
   }
 
   /* 🔍 SEARCH */
-  const handleSearch = async () => {
-    if (!validateForm()) {
-      return
-    }
+  const handleSearch = () => {
+  if (!validateForm()) return
 
-    try {
-      setLoading(true)
-      
-      const searchParams = {
-        origin: formData.origin.toUpperCase(),
-        destination: formData.destination.toUpperCase(),
-        departureDate: formData.departureDate,
-        passengers: passengers,
-        tripType: tripType
-      }
+  const query = new URLSearchParams({
+    origin: formData.origin.toUpperCase(),
+    destination: formData.destination.toUpperCase(),
+    date: formData.departureDate,
+    pax: passengers
+  }).toString()
 
-      if (tripType === "roundtrip") {
-        searchParams.returnDate = formData.returnDate
-      }
+  navigate(`/list?${query}`)
+}
 
-      const result = await searchFlights(searchParams)
-      
-      console.log("HASIL SEARCH:", result)
-      
-      // Navigate to results page with search params
-      navigate("/flights", { 
-        state: { 
-          flights: result,
-          searchParams: searchParams
-        } 
-      })
-
-    } catch (err) {
-      console.error("Search error:", err)
-      setErrors({
-        general: err.message || "Gagal mencari penerbangan. Silakan coba lagi."
-      })
-    } finally {
-      setLoading(false)
-    }
-  }
 
   /* Handle Enter key */
   const handleKeyPress = (e) => {

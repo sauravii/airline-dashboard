@@ -50,4 +50,6 @@ public class FlightRequest {
     public void setAircraftId(Long aircraftId) {
         this.aircraftId = aircraftId;
     }
+
+    
 }
