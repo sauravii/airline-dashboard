@@ -11,12 +11,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -59,42 +56,25 @@ public class SecurityConfig {
     // ======================
     // SECURITY FILTER
     // ======================
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(sm ->
-                sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
-            .exceptionHandling(ex -> ex
-                .authenticationEntryPoint((req, res, exx) ->
-                    res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+            http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(sm ->
+                    sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-            )
-            .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/api/auth/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/flight/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/flight").permitAll()
+                    .requestMatchers(HttpMethod.PUT, "/api/flight/**").permitAll()
+                    .requestMatchers(HttpMethod.DELETE, "/api/flight/**").permitAll()
+                    .anyRequest().permitAll()
+                );
 
-                // ===== PUBLIC =====
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/auth/**").permitAll()
+            return http.build();
+        }
 
-                // ===== PUBLIC READ =====
-                .requestMatchers(HttpMethod.GET, "/api/flight/**").permitAll()
-
-                // ===== ADMIN ONLY =====
-                .requestMatchers(HttpMethod.POST, "/api/flight").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/api/flight/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/flight/**").hasRole("ADMIN")
-
-                // ===== DEFAULT =====
-                .anyRequest().authenticated()
-            )
-            .addFilterBefore(
-                jwtAuthenticationFilter,
-                UsernamePasswordAuthenticationFilter.class
-            );
-
-        return http.build();
-    }
 }
